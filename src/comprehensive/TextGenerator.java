@@ -10,6 +10,8 @@ package comprehensive;
  */
 public class TextGenerator
 {
+    //for the third command line argument, dictates how many words to generate
+    private int K;
     //TODO finish readme
     //TODO another class for processing file
     //TODO determine data structure to use for this (I vote directed graph of some sort)
@@ -17,6 +19,10 @@ public class TextGenerator
      * Method where actual code is run.
      * TODO outline process in this method
      *
+     *  FROM THE ASSIGNMENT
+     *  As a part of your program, you need to create at least two Java classes.
+     *  One of these represents the model, which processes the input and provides text generation capability.
+     *  The other represents the command-line application that allows the user to interface with the model.
      * @param args command line arguments to add to program TODO use these to get text docs
      */
     public static void main(String[] args)
