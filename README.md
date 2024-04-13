@@ -1,4 +1,4 @@
-THE PROBLEM: (as dictated by the course)
+# THE PROBLEM: (as dictated by the course)
 
 You have been asked to create a program that can take a text file as input and generate some text as output that has some similar characteristics as the input. 
 It is not necessary that the output represent correct language or even be meaningful, but it needs to contain similar words in similar patterns. 
@@ -23,17 +23,18 @@ This means that somewhere in your code you need to be keeping track of this prob
 There are many ways to accomplish that. Consider the most efficient data structures and algorithms for this application while considering the required functionality.
 
 
-REQUIREMENTS: (again, as dictated by the course)
+# REQUIREMENTS: (again, as dictated by the course)
 
 Create a new class named TextGenerator in a new package called comprehensive. The user starts your program by running this class (i.e., by executing TextGenerator's main method). There are several command-line arguments required that must match these specifications exactly and in this order.
-        • First argument - The path and name of the input text file. This can be an absolute or relative path.
-        • Second argument - The "seed" word.  We'll use your model to predict which word(s) come after the seed.  You can assume that the seed is a word contained in the input file
-        • Third argument - The number of words your program should generate as output (we'll call it K). This must be an integer that is not negative and would not overflow the int type.
-        • (Optional) Fourth argument - The fourth argument determines what your program should output
-            • If there is no fourth argument, the output will be the K most probable words that could come after the seed word. The words must be output in descending order from most probable to least. If there are fewer than K possible next words for the first word, fewer than K words will be output. For an input file containing "hello world" example, with seed "hello", if K = 3 the output would just be one word: "world".
-            • If there is a fourth argument present, it must be either the word all or the word one. If it is all, the output will be generated while selecting randomly from all possible next words based on their probabilities. If it is one, generation will only select the next word with greatest probability. Ties for greatest probability will be broken using the lexicographical ordering of the words. For example, if "apple" and "zoo" were tied for greatest probability, the word "apple" would be selected. This means that the output using argument one is deterministic, while the output for all is not. In either case, the first word in the output must be the "seed" word.
-            • If you encounter a situation where there is no possible next word and you need to generate more words, the next word will again be the seed word. For example, If the input contains the text "hello world", and the number of needed output words is 7, and the seed is "hello", then the output will be "hello world hello world hello world hello".
-            Note that your solution must handle both three and four argument cases.
+- **First argument** - The path and name of the input text file. This can be an absolute or relative path.
+- **Second argument** - The "seed" word.  We'll use your model to predict which word(s) come after the seed.  You can assume that the seed is a word contained in the input file
+- **Third argument** - The number of words your program should generate as output (we'll call it K). This must be an integer that is not negative and would not overflow the int type.
+- **(Optional) Fourth argument** - The fourth argument determines what your program should output.
+  - If there is no fourth argument, the output will be the K most probable words that could come after the seed word. The words must be output in descending order from most probable to least. If there are fewer than K possible next words for the first word, fewer than K words will be output. For an input file containing "hello world" example, with seed "hello", if K = 3 the output would just be one word: "world".
+  - If there is a fourth argument present, it must be either the word all or the word one. If it is all, the output will be generated while selecting randomly from all possible next words based on their probabilities. If it is one, generation will only select the next word with greatest probability. Ties for greatest probability will be broken using the lexicographical ordering of the words. For example, if "apple" and "zoo" were tied for greatest probability, the word "apple" would be selected. This means that the output using argument one is deterministic, while the output for all is not. In either case, the first word in the output must be the "seed" word.
+  - If you encounter a situation where there is no possible next word and you need to generate more words, the next word will again be the seed word. For example, If the input contains the text "hello world", and the number of needed output words is 7, and the seed is "hello", then the output will be "hello world hello world hello world hello".
+
+**Note that your solution must handle both three and four argument cases.**
 
  
 
@@ -59,9 +60,10 @@ The output must be printed to System.out and follow these specifications.
 
   Take care to design your solution to be as efficient as possible.  See the section below for details of how your text generator is evaluated for running-time efficiency.
 
-NOTE: It is intentional that you are being given no guidance as to how to solve the problem. It is critical that you gain experience solving a problem "from scratch," designing the structure of your classes and methods, as well as choosing the best data structures and algorithms for the problem. Because the readers of your code have no assumptions about how it is organized, you must document it well.
+**NOTE: It is intentional that you are being given no guidance as to how to solve the problem. It is critical that you gain experience solving a problem "from scratch," designing the structure of your classes and methods, as well as choosing the best data structures and algorithms for the problem. Because the readers of your code have no assumptions about how it is organized, you must document it well.**
 
-OUR SOLUTION:
+# OUR SOLUTION:
 
 //TODO add solution
+
 
