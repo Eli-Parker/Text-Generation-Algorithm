@@ -1,4 +1,4 @@
-package GenerativeTextAlgorithm;
+package comprehensive;
 
 /**
  * Contains a generative text algorithm which generates predicted text based on a given input
@@ -8,7 +8,7 @@ package GenerativeTextAlgorithm;
  * @version Apr 13, 2024
  * @author Eli Parker and Jorden Dickerson
  */
-public class GenerativeTextAlgorithm
+public class TextGenerator
 {
     /**
      * Method where actual code is run.
