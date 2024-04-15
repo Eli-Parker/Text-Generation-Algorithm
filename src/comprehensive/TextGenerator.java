@@ -1,5 +1,8 @@
 package comprehensive;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 /**
  * Contains a generative text algorithm which generates predicted text based on a given input
  * <P>
@@ -23,10 +26,25 @@ public class TextGenerator
      *  As a part of your program, you need to create at least two Java classes.
      *  One of these represents the model, which processes the input and provides text generation capability.
      *  The other represents the command-line application that allows the user to interface with the model.
-     * @param args command line arguments to add to program TODO use these to get text docs
+     *
+     * @param args command line arguments to add to program, usage detailed above TODO detail command line args
+     * @throws IllegalArgumentException if the number of command line arguments is incorrect
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws IllegalArgumentException, FileNotFoundException
     {
+        //initialize file
+        File textFile;
+        if(args.length == 3)
+        {
+            textFile = new File(args[0]);
+
+        }else if (args.length == 4)
+        {
+
+        }else
+        {
+            throw new IllegalArgumentException("Command line argument has incorrect length");
+        }
         //TODO the process
         /*
             1. handle command line arguments.

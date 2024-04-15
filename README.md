@@ -17,8 +17,8 @@ The first three arguments are always the same. The inclusion of the 4th argument
 **Note: The program will not run unless the three arguments are passed properly.**
 - **Argument 1** contains the filepath of a `.txt` file. The text file should contain a list of words. All punctuation, 
     word case (ex: HELLO & Hello == "hello"),
-    words with strange punctuation (ex: 'ere's | .ea,p.m), and words containing anything except the alphabet will be ignored
-    in the algorithm
+    words with strange punctuation (ex: 'ere's | .ea,p.m), and words containing anything except the alphabet,
+    numbers 0-9, and underscores will be ignored in the algorithm
 - **Argument 2** contains a starting word, or "seed word". This is the word which the algorithm will use as 
     a starting point for the generation
 - **Argument 3**, referred to as K, is the number of words to generate after the seed word
@@ -56,7 +56,7 @@ Thank you Jorden :) your inclusion has been much appreciated.
 To properly show the requirements the assignment is under, I've included the broad strokes of the assignment 
 description below which detail grading structure and code functionality requirements.
 
-All text shown below is directly taken from the assignment page.
+_All text shown below is directly taken from the assignment page._
 ### The Problem:
 
 You have been asked to create a program that can take a text file as input and generate some text as output that has some similar characteristics as the input. 
@@ -121,7 +121,7 @@ The output must be printed to System.out and follow these specifications.
 
 **NOTE: It is intentional that you are being given no guidance as to how to solve the problem. It is critical that you gain experience solving a problem "from scratch," designing the structure of your classes and methods, as well as choosing the best data structures and algorithms for the problem. Because the readers of your code have no assumptions about how it is organized, you must document it well.**
 
-# OUR SOLUTION
+# Our Solution
 
 //TODO add solution
 
