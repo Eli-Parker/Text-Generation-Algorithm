@@ -129,6 +129,15 @@ public class DirectedGraph {
         return new String[0]; //return an empty array if there are no connections
     }
 
+    /**
+     * Returns the number of vertices in the graph.
+     * @return an integer representing the number of vertices in the graph
+     */
+    public int size()
+    {
+        return adjList.size();
+    }
+
 
     /**
      * A class to represent an edge in the graph, containing the value and the number of times we see the word pair.
