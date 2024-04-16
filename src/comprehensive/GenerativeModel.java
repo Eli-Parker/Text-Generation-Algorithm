@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -40,9 +41,26 @@ public class GenerativeModel
                     //if the word has a previous word, add a connection from the previous word to the current word
                     this.graph.addConnection(previousWord, word);
                 }
-                previousWord = word;
+                previousWord = formattedWord;
             }
         }
+    }
+
+    /**
+     * spits out the graph's vertexes and nodes
+     *
+     */
+    public String getGraph()
+    {
+        String[] vertexes = graph.getVertexes();
+        String[] result = new String[vertexes.length];
+        int i = 0;
+        for(String vertex : vertexes)
+        {
+            result[i] = vertex + " - " + Arrays.toString(graph.getMostProbableList(vertex, 9989999));
+            i++;
+        }
+        return Arrays.toString(result);
     }
 
     /**

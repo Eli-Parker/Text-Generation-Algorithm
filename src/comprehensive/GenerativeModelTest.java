@@ -1,5 +1,8 @@
 package comprehensive;
 
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GenerativeModelTest {
@@ -8,7 +11,12 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.BeforeEach
     void setUp()
     {
-        //model = new GenerativeModel();
+        try {
+            model = new GenerativeModel("GPT-0.1/abc.txt");
+        }catch(FileNotFoundException e)
+        {
+            System.out.println("fuck");
+        }
     }
 
     @org.junit.jupiter.api.Test
@@ -26,4 +34,10 @@ public class GenerativeModelTest {
     {
     }
 
+    @org.junit.jupiter.api.Test
+    void testBasicOutput()
+    {
+//        assertEquals("[a - [b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]]", model.getGraph());
+        System.out.println(model.getGraph());
+    }
 }

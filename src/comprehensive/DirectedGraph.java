@@ -65,7 +65,7 @@ public class DirectedGraph {
         {
             //If source isn't found, add the source to the HashMaps
             ArrayList<Edge> edges = new ArrayList<>();
-            PriorityQueue<Edge> priorityEdges = new PriorityQueue<>(Comparator.comparing(Edge::getWeight).reversed());
+            PriorityQueue<Edge> priorityEdges = new PriorityQueue<>();
 
             var edge = new Edge(destination,edges); // add a new edge with the destination str & 1 occurrence
             priorityEdges.add(edge);
@@ -120,9 +120,9 @@ public class DirectedGraph {
             String[] list = new String[priorityAdjList.get(source).size()];//return value
 
             //iterate until we go through entire list or get to K
-            for(int i=0;i < priorityAdjList.size() && i < K;i++)
+            for(int i=0;i < priorityAdjList.get(source).size() && i < K;i++)
             {
-                list[i] = originalQueue.poll().getDestination();
+                list[i] = Objects.requireNonNull(originalQueue.poll().getDestination());
             }
             return list;
         }
@@ -138,6 +138,11 @@ public class DirectedGraph {
         return adjList.size();
     }
 
+    public String[] getVertexes(){
+        return adjList.keySet().toArray(new String[0]);
+    }
+
+
 
     /**
      * A class to represent an edge in the graph, containing the value and the number of times we see the word pair.
@@ -151,7 +156,7 @@ public class DirectedGraph {
      * @author Eli Parker & Jorden Dickerson
      * @version Apr 16, 2024
      */
-    public class Edge {
+    public class Edge implements Comparable<Edge> {
 
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
@@ -191,6 +196,12 @@ public class DirectedGraph {
         public void increaseOccurrences()
         {
             occurrences++;
+        }
+
+        @Override
+        public int compareTo(Edge edge) {
+            int comparison = Double.compare(edge.getWeight(), this.getWeight());
+            return comparison == 0 ? this.getDestination().compareTo(edge.getDestination()) : comparison;
         }
     }
 }
