@@ -3,10 +3,16 @@ package comprehensive;
 import java.util.*;
 
 /**
- *  //TODO Deleteme WOW THIS HAS BEEN A JOURNEY
+ *  Represents a directed graph of word pairs with the ability to both grab
+ *  the maximum frequency connection and a random connection from any node in the graph.
+ *  Both getMax() and getRandom() are O(1) operations,
+ *  while getFullList() is O(k) where k is how many terms to get from k.
+ *  <p>
+ *  The graph is represented using a HashMap of Strings mapped to ArrayLists of Edges,
+ *  and a HashMap of Strings mapped to PriorityQueues of Edges.
  *
  * @author Eli Parker & Jorden Dickerson
- * @version Apr 15, 2024
+ * @version Apr 16, 2024
  */
 public class DirectedGraph {
 
@@ -14,7 +20,7 @@ public class DirectedGraph {
     private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for the maximum value
 
     /**
-     * Creates a new DirectedGraph object
+     * Creates a new DirectedGraph object.
      */
     public DirectedGraph() {
         this.adjList = new HashMap<>();
@@ -22,11 +28,11 @@ public class DirectedGraph {
     }
 
     /**
-     * Adds an edge to the graph
+     * Adds a connection to the graph.
      * @param source the source node
      * @param destination the destination node
      */
-    public void addEdge(String source, String destination)
+    public void addConnection(String source, String destination)
     {
         //Checks to see if source is there
         if(adjList.containsKey(source))
@@ -36,15 +42,13 @@ public class DirectedGraph {
             PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
             //iterates through edges to check for existing word pair
-            for(int i=0;i<edges.size();i++)
-            {
-                if(edges.get(i).getDestination().equals(destination))
-                {
+            for (Edge value : edges) {
+                if (value.getDestination().equals(destination)) {
                     //since the priorityQueue order must be maintained, we remove the edge
                     //and put it back after it's been edited
-                    priorityEdges.remove(edges.get(i));
-                    edges.get(i).increaseWeight();
-                    priorityEdges.add(edges.get(i));
+                    priorityEdges.remove(value);
+                    value.increaseOccurrences();
+                    priorityEdges.add(value);
                     found = true;
                     break;
                 }
@@ -52,18 +56,18 @@ public class DirectedGraph {
             if(!found)
             {
                 //if pair isn't found, add it
-                var edge = new Edge(destination,1.0/ (double)adjList.size());
+                var edge = new Edge(destination);
                 edges.add(edge);
                 priorityEdges.add(edge);
             }
         }
         else
         {
-            //If source isn't found, add to the HashMaps
+            //If source isn't found, add the source to the HashMaps
             ArrayList<Edge> edges = new ArrayList<>();
             PriorityQueue<Edge> priorityEdges = new PriorityQueue<>(Comparator.comparing(Edge::getWeight).reversed());
 
-            var edge = new Edge(destination,1.0/ (double)adjList.size());
+            var edge = new Edge(destination); // add a new edge with the destination str & 1 occurrence
             priorityEdges.add(edge);
             edges.add(edge);
             adjList.put(source,edges);
@@ -72,7 +76,7 @@ public class DirectedGraph {
     }
 
     /**
-     * Gets the connection to the given node with the highest weight, or the most "probability"
+     * Gets the connection to the given node with the highest weight, or the most "probability".
      * @param source the word to get the most probably value from
      * @return the most probable word to come after the source word, or an empty string if there is no connection
      */
@@ -86,7 +90,7 @@ public class DirectedGraph {
     }
 
     /**
-     * Gets a random connection to the source node
+     * Gets a random connection to the source node.
      * @param source the word to get a random value from
      * @return a random word that comes after the source, or an empty string if there is no connection
      */
@@ -100,45 +104,83 @@ public class DirectedGraph {
         return "";
     }
 
+    /**
+     * Gets the list of K most probable words that come after the source word.
+     * in order from most probable to least probable.
+     * @param source the word to get all the connections of
+     * @param K the number of words to return. Note that if K is greater than the number of connections, it will return all connections
+     * @return an ordered list of K words that come after the source word, or an empty list if there are no connections
+     */
+    public String[] getMostProbableList(String source, int K)
+    {
+        if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
+            //copy the priorityQueue so we don't compromise the original
+            var originalQueue = new PriorityQueue<>(priorityAdjList.get(source));
+
+            String[] list = new String[priorityAdjList.get(source).size()];//return value
+
+            //iterate until we go through entire list or get to K
+            for(int i=0;i < priorityAdjList.size() && i < K;i++)
+            {
+                list[i] = originalQueue.poll().getDestination();
+            }
+            return list;
+        }
+        return new String[0]; //return an empty array if there are no connections
+    }
+
 
     /**
-     * A class to represent an edge from one node to another, containing the weight as well.
-     * It's worth noting that the weight is defined as the
-     * frequency of the word pair / all word pairs.
+     * A class to represent an edge in the graph, containing the value and the number of times we see the word pair.
+     * <p>
+     * Note: The weight is defined as the
+     * frequency of the word pair / all words in the adjacency list.
      * <p>
      * EXAMPLE:
      * if i have a word "hello" and in my text the words that come after hello are "world", "hi", and "jim",
      * then "jim" would have a frequency of 1/3
+     * @author Eli Parker & Jorden Dickerson
+     * @version Apr 16, 2024
      */
     public class Edge {
 
-        private final String destination;
-        private double weight;
+        private final String destination; // the connection's destination
+        private int occurrences; // number of times we see the word pair
 
         /**
-         * Creates a new Edge object
+         * Creates a new Edge object with 1 occurrence
          * @param destination the destination node
-         * @param weight the weight of the edge
          */
-        public Edge(String destination, double weight)
+        public Edge(String destination)
         {
             this.destination = destination;
-            this.weight = weight;
+            this.occurrences = 1;
         }
 
+        /**
+         * Gets the destination of the edge object.
+         * @return a string which is the destination of the edge
+         */
         public String getDestination()
         {
             return this.destination;
         }
 
+        /**
+         * Gets the weight of the edge object.
+         * @return a double which is the weight of the edge
+         */
         public double getWeight()
         {
-            return this.weight;
+            return (double) occurrences / (double) adjList.size();
         }
 
-        public void increaseWeight()
+        /**
+         * Increases the number of occurrences of the edge object by 1.
+         */
+        public void increaseOccurrences()
         {
-            this.weight++;
+            occurrences++;
         }
     }
 }
