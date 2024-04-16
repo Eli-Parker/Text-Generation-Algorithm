@@ -41,7 +41,7 @@ public class DirectedGraph {
             ArrayList<Edge> edges = adjList.get(source);
             PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
-            //iterates through edges to check for existing word pair
+            //iterates through edges to check for existing word pair. if the word pair exists, increase the occurrences
             for (Edge value : edges) {
                 if (value.getDestination().equals(destination)) {
                     //since the priorityQueue order must be maintained, we remove the edge
@@ -55,10 +55,10 @@ public class DirectedGraph {
             }
             if(!found)
             {
-                //if pair isn't found, add it
-                var edge = new Edge(destination);
-                edges.add(edge);
-                priorityEdges.add(edge);
+                //if pair isn't found, create a new edge pointing to the destination word
+                var newEdge = new Edge(destination,edges);
+                edges.add(newEdge);
+                priorityEdges.add(newEdge);
             }
         }
         else
@@ -67,7 +67,7 @@ public class DirectedGraph {
             ArrayList<Edge> edges = new ArrayList<>();
             PriorityQueue<Edge> priorityEdges = new PriorityQueue<>(Comparator.comparing(Edge::getWeight).reversed());
 
-            var edge = new Edge(destination); // add a new edge with the destination str & 1 occurrence
+            var edge = new Edge(destination,edges); // add a new edge with the destination str & 1 occurrence
             priorityEdges.add(edge);
             edges.add(edge);
             adjList.put(source,edges);
@@ -82,7 +82,7 @@ public class DirectedGraph {
      */
     public String getMax(String source)
     {
-        if(priorityAdjList.containsKey(source))
+        if(priorityAdjList.containsKey(source) && !priorityAdjList.get(source).isEmpty())
         {
             return priorityAdjList.get(source).peek().getDestination();
         }
@@ -142,8 +142,8 @@ public class DirectedGraph {
     /**
      * A class to represent an edge in the graph, containing the value and the number of times we see the word pair.
      * <p>
-     * Note: The weight is defined as the
-     * frequency of the word pair / all words in the adjacency list.
+     * Note: The weight is defined as
+     * the frequency of the word pair / the number of edges.
      * <p>
      * EXAMPLE:
      * if i have a word "hello" and in my text the words that come after hello are "world", "hi", and "jim",
@@ -155,15 +155,17 @@ public class DirectedGraph {
 
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
+        private ArrayList<Edge> parentList; // saves the parent list for weight calculation
 
         /**
          * Creates a new Edge object with 1 occurrence
          * @param destination the destination node
          */
-        public Edge(String destination)
+        public Edge(String destination, ArrayList<Edge> parentList)
         {
             this.destination = destination;
             this.occurrences = 1;
+            this.parentList = parentList;
         }
 
         /**
@@ -176,14 +178,13 @@ public class DirectedGraph {
         }
 
         /**
-         * Gets the weight of the edge object.
-         * @return a double which is the weight of the edge
+         * Gets the number of times we see the edge object.
+         * @return a double which is the occurrences of the edge
          */
         public double getWeight()
         {
-            return (double) occurrences / (double) adjList.size();
+            return (double) occurrences / parentList.size();
         }
-
         /**
          * Increases the number of occurrences of the edge object by 1.
          */

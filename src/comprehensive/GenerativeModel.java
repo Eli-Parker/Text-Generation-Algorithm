@@ -32,11 +32,10 @@ public class GenerativeModel
             String previousWord = "";
             for(String word : words)
             {
+                var formattedWord = formatWord(word);
                 if(!previousWord.equals(""))
                 {
-                    if(!word.contains(".!@#$%^&*()")) {
-                        this.graph.addConnection(previousWord, word);
-                    }
+                    this.graph.addConnection(previousWord, word);
                 }
                 previousWord = word;
             }
@@ -57,10 +56,12 @@ public class GenerativeModel
      * @param word
      * @return
      */
-    private boolean badWord(String word)
+    private String formatWord(String word)
     {
-        return word.contains(".!@#$%^&*()");
+//        return word.contains(".!@#$%^&*()");
+        return "TODO";
     }
+
 
 
 
