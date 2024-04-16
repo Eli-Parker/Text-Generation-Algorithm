@@ -1,5 +1,7 @@
 package comprehensive;
 
+import java.io.FileNotFoundException;
+
 /**
  * Contains a generative text algorithm which generates predicted text based on a given input
  * <P>
@@ -10,17 +12,44 @@ package comprehensive;
  */
 public class TextGenerator
 {
+    //for the third command line argument, dictates how many words to generate
+    private int K;
     //TODO finish readme
-    //TODO another class for processing file
-    //TODO determine data structure to use for this (I vote directed graph of some sort)
     /**
      * Method where actual code is run.
      * TODO outline process in this method
      *
-     * @param args command line arguments to add to program TODO use these to get text docs
+     * @param args command line arguments to add to program, usage detailed above TODO detail command line args
+     * @throws FileNotFoundException if the filepath is invalid
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws FileNotFoundException
     {
+        //take the file path argument and pass into generative model
+
+        GenerativeModel model;
+        //check for valid filepath
+        try
+        {
+            model = new GenerativeModel(args[0]);
+        }
+        catch(FileNotFoundException e)
+        {
+            throw new FileNotFoundException("Filepath is invalid");
+        }
+
+        if(args.length == 3)
+        {
+            //return k words for the given word
+
+        }else if (args.length == 4)
+        {
+            //return k predicted words for the given seed word
+
+
+        }else
+        {
+            throw new IllegalArgumentException("Incorrect number of command line arguments");
+        }
         //TODO the process
         /*
             1. handle command line arguments.
