@@ -10,15 +10,15 @@ import java.util.*;
  */
 public class DirectedGraph {
 
-    private HashMap<String,ArrayList<Edge>> adjList;
-    private Random rng;
+    private HashMap<String,ArrayList<Edge>> adjList; // for random values
+    private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for the maximum value
 
     /**
      * Creates a new DirectedGraph object
      */
     public DirectedGraph() {
         this.adjList = new HashMap<>();
-        rng = new Random();
+        this.priorityAdjList = new HashMap<>();
     }
 
     /**
@@ -28,58 +28,76 @@ public class DirectedGraph {
      */
     public void addEdge(String source, String destination)
     {
+        //Checks to see if source is there
         if(adjList.containsKey(source))
         {
+            //gets the edge lists for that source
             ArrayList<Edge> edges = adjList.get(source);
+            PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
+            //iterates through edges to check for existing word pair
             for(int i=0;i<edges.size();i++)
             {
                 if(edges.get(i).getDestination().equals(destination))
                 {
+                    //since the priorityQueue order must be maintained, we remove the edge
+                    //and put it back after it's been edited
+                    priorityEdges.remove(edges.get(i));
                     edges.get(i).increaseWeight();
+                    priorityEdges.add(edges.get(i));
                     found = true;
                     break;
                 }
             }
             if(!found)
             {
-                edges.add(new Edge(destination,1));
+                //if pair isn't found, add it
+                var edge = new Edge(destination,1.0/ (double)adjList.size());
+                edges.add(edge);
+                priorityEdges.add(edge);
             }
         }
         else
         {
+            //If source isn't found, add to the HashMaps
             ArrayList<Edge> edges = new ArrayList<>();
-            edges.add(new Edge(destination,1));
+            PriorityQueue<Edge> priorityEdges = new PriorityQueue<>(Comparator.comparing(Edge::getWeight).reversed());
+
+            var edge = new Edge(destination,1.0/ (double)adjList.size());
+            priorityEdges.add(edge);
+            edges.add(edge);
             adjList.put(source,edges);
+            priorityAdjList.put(source,priorityEdges);
         }
     }
 
     /**
-     * Gets the edge of the node with the highest weight
-     * @param node the word to get the most probable value from
-     * @return
+     * Gets the connection to the given node with the highest weight, or the most "probability"
+     * @param source the word to get the most probably value from
+     * @return the most probable word to come after the source word, or an empty string if there is no connection
      */
-    public String getMax(String node)
+    public String getMax(String source)
     {
-        if(adjList.containsKey(node))
+        if(priorityAdjList.containsKey(source))
         {
-            ArrayList<Edge> edges = adjList.get(node);
-            var currentMaxWeight = -1.0;
-            var currentMaxValue = "";
-            for(int i=0;i< edges.size();i++)
-            {
-                if(edges.get(i).getWeight() > currentMaxWeight)
-                {
-                    currentMaxWeight = edges.get(i).getWeight();
-                    currentMaxValue =  edges.get(i).getDestination();
-                }
-            }
-            return currentMaxValue;
+            return priorityAdjList.get(source).peek().getDestination();
         }
-        else
+        return "";
+    }
+
+    /**
+     * Gets a random connection to the source node
+     * @param source the word to get a random value from
+     * @return a random word that comes after the source, or an empty string if there is no connection
+     */
+    public String getRandom(String source)
+    {
+        if(adjList.containsKey(source))
         {
-            return "";
+            Random rng = new Random();
+            return adjList.get(source).get(rng.nextInt(adjList.get(source).size())).getDestination();
         }
+        return "";
     }
 
 
