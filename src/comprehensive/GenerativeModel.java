@@ -19,6 +19,7 @@ public class GenerativeModel
     //The adjacency list representation of the graph
     private DirectedGraph graph;
 
+
     /**
      * Creates a new GenerativeModel object, parses the given file and creates a graph from it.
      */
@@ -26,15 +27,17 @@ public class GenerativeModel
         this.graph = new DirectedGraph();
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);
+        //for each line in the file, separate the words and add them to the graph as connections
         while(scanner.hasNextLine())
         {
-            String[] words = scanner.nextLine().split("");
+            String[] words = scanner.nextLine().split(" ");
             String previousWord = "";
             for(String word : words)
             {
-                var formattedWord = formatWord(word);
-                if(!previousWord.equals(""))
+                var formattedWord = formatWord(word); // format the word
+                if(!previousWord.equals("") && !formattedWord.equals(""))
                 {
+                    //if the word has a previous word, add a connection from the previous word to the current word
                     this.graph.addConnection(previousWord, word);
                 }
                 previousWord = word;
@@ -52,14 +55,28 @@ public class GenerativeModel
     }
 
     /**
-     * Determines if a word has bad formatting
-     * @param word
-     * @return
+     * Removes bad formatting from the given word
+     * @param word the word to format
+     * @return a formatted word, or an empty string if the word is not valid
      */
-    private String formatWord(String word)
+    public static String formatWord(String word)
     {
-//        return word.contains(".!@#$%^&*()");
-        return "TODO";
+        //initialize a string builder to hold the formatted word
+        StringBuilder result = new StringBuilder(word.length());
+        //convert the word to a character array and loop through each character
+        for (char character : word.toCharArray()) {
+            //if the character is an apostrophe, break the loop (no characters after an apostrophe are valid)
+            if (character == '\'') {
+                break;
+            }
+            //if the character is a letter, add it to the result. ignore any other characters
+            if(!Character.toString(character).matches("[^\\w\\s]"))
+            {
+                result.append(character);
+            }
+        }
+
+        return result.toString().toLowerCase();
     }
 
 
