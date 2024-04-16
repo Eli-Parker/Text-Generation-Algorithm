@@ -49,7 +49,7 @@ public class GenerativeModel
      * Gets the number of vertices in the model
      * @return the number of vertices in the model
      */
-    private int size()
+    public int size()
     {
         return graph.size();
     }
@@ -70,7 +70,7 @@ public class GenerativeModel
                 break;
             }
             //if the character is a letter, add it to the result. ignore any other characters
-            if(!Character.toString(character).matches("[^\\w\\s]"))
+            if(!(Character.toString(character).matches("[^\\w\\s]") || Character.toString(character).matches("_")))
             {
                 result.append(character);
             }
