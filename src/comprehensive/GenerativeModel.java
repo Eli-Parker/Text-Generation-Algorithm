@@ -97,6 +97,11 @@ public class GenerativeModel
         return result.toString().toLowerCase();
     }
 
+    /**
+     * Formats an array of words
+     * @param words the words to format
+     * @return an array of formatted words
+     */
     public static String[] formatWords(String[] words)
     {
         ArrayList<String> result = new ArrayList<>();

@@ -12,7 +12,7 @@ public class GenerativeModelTest {
     void setUp()
     {
         try {
-            model = new GenerativeModel("abc.txt");
+            model = new GenerativeModel("the-old-english-physiologus.txt");
         }catch(FileNotFoundException e)
         {
             throw new RuntimeException("File not found");
