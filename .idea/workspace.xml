@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Created a method to return a list of the weight of each vertex">
-      <change afterPath="$PROJECT_DIR$/beeMovie.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +52,9 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.DirectedGraphTest.executor": "Run",
+    "JUnit.DirectedGraphTest.getMostProbableList.executor": "Run",
     "JUnit.GenerativeModelTest.executor": "Run",
+    "JUnit.GenerativeModelTest.testBasicOutput.executor": "Run",
     "JUnit.GenerativeModelTest.testGenerateText.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -80,6 +80,38 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="DirectedGraphTest.getMostProbableList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GPT -1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="comprehensive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="comprehensive" />
+      <option name="MAIN_CLASS_NAME" value="comprehensive.DirectedGraphTest" />
+      <option name="METHOD_NAME" value="getMostProbableList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GenerativeModelTest.testBasicOutput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GPT -1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="comprehensive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="comprehensive" />
+      <option name="MAIN_CLASS_NAME" value="comprehensive.GenerativeModelTest" />
+      <option name="METHOD_NAME" value="testBasicOutput" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GenerativeModelTest.testGenerateText" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="GPT -1" />
       <extension name="coverage">
@@ -98,6 +130,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DirectedGraphTest.getMostProbableList" />
+        <item itemvalue="JUnit.GenerativeModelTest.testBasicOutput" />
         <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
       </list>
     </recent_temporary>
@@ -240,5 +274,26 @@
     <MESSAGE value="Added javadoc for formatWords function and tested on an actual book" />
     <MESSAGE value="Created a method to return a list of the weight of each vertex" />
     <option name="LAST_COMMIT_MESSAGE" value="Created a method to return a list of the weight of each vertex" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="key" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="priorityAdjList" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

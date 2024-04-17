@@ -6,18 +6,20 @@ import java.util.*;
  *  Represents a directed graph of word pairs with the ability to both grab
  *  the maximum frequency connection and a random connection from any node in the graph.
  *  Both getMax() and getRandom() are O(1) operations,
- *  while getFullList() is O(k) where k is how many terms to get from k.
+ *  while getFullList() is O(k) where k is how many terms to get from k, or O(N) if K is bigger than the list.
  *  <p>
  *  The graph is represented using a HashMap of Strings mapped to ArrayLists of Edges,
  *  and a HashMap of Strings mapped to PriorityQueues of Edges.
+ *  The ArrayList representation is used for getRandom() and the PriorityQueue representation is used for getMax() and getMostProbableList().
+ *  This results in very fast access times for both operations at the cost of more memory usage.
  *
  * @author Eli Parker & Jorden Dickerson
  * @version Apr 16, 2024
  */
 public class DirectedGraph {
 
-    private HashMap<String,ArrayList<Edge>> adjList; // for random values
-    private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for the maximum value
+    private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
+    private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for accessing the maximum value & the sorted list
 
     /**
      * Creates a new DirectedGraph object.
@@ -88,7 +90,9 @@ public class DirectedGraph {
     {
         if(priorityAdjList.containsKey(source) && !priorityAdjList.get(source).isEmpty())
         {
-            return priorityAdjList.get(source).peek().getDestination();
+            //get the first element in the priority queue, return it
+            Edge edge = priorityAdjList.get(source).peek();
+            return (edge != null) ? edge.getDestination() : "";
         }
         return "";
     }
@@ -112,7 +116,7 @@ public class DirectedGraph {
     }
 
     /**
-     * Gets the list of K most probable words that come after the source word.
+     * Gets a list of K most probable words that come after the source word,
      * in order from most probable to least probable.
      * @param source the word to get all the connections of
      * @param K the number of words to return. Note that if K is greater than the number of connections, it will return all connections
@@ -127,22 +131,31 @@ public class DirectedGraph {
 
 
             //iterate until we go through entire list or get to K
-            for(int i=0;i < priorityAdjList.get(source).size() && i < K;i++)
+            for(int i=0;i < priorityAdjList.get(source).size() - 1 && i < K - 1;i++)
             {
-                result.append(originalQueue.poll().getDestination()).append(", ");
+                //append the destination of the edge to the result
+                if(originalQueue.peek() != null)
+                    result.append(originalQueue.poll().getDestination()).append(", ");
+
             }
+            //add the last element without a comma
+            if(originalQueue.peek() != null)
+                result.append(originalQueue.poll().getDestination());
             return result.toString();
         }
         return ""; //return an empty String if there are no connections
     }
 
+    /*
+       Testing methods for DirectedGraph below
+     */
 
     /**
-     * Gets the list of K most probable weights that come after the source word.
+     * Gets the list of K most probable weights that come after the source word. TODO delete in final submission
      * in order from most probable to least probable.
      * @param source the word to get all the connections of
-     * @param K the number of words to return. Note that if K is greater than the number of connections, it will return all connections
-     * @return an ordered list of K words that come after the source word, or an empty list if there are no connections
+     * @param K the number of word-weights to return. Note that if K is greater than the number of connections, it will return all connection weights
+     * @return an ordered list of K weights that come after the source word, or an empty list if there are no connections
      */
     public Double[] getMostProbableListWeights(String source, int K)
     {
@@ -153,9 +166,10 @@ public class DirectedGraph {
             Double[] list = new Double[priorityAdjList.get(source).size()];//return value
 
             //iterate until we go through entire list or get to K
-            for(int i=0;i < priorityAdjList.get(source).size() && i < K;i++)
+            for(int i=0;i < originalQueue.size() && i < K;i++)
             {
-                list[i] = originalQueue.poll().getWeight();
+                if(originalQueue.peek() != null)
+                    list[i] = originalQueue.poll().getWeight();
             }
             return list;
         }
@@ -172,9 +186,10 @@ public class DirectedGraph {
     }
 
     /**
-     * Returns the edges for any vertex in the graph.
+     * Returns the edges for a given vertex in the graph,
+     * or "NOTHING FOUND" if the vertex is not in the graph.
      * @param source the source node
-     * @return a string representing the edges of the graph
+     * @return a string representing the edges of the graph or "NOTHING FOUND" if the vertex is not in the graph.
      */
     public String getEdges(String source)
     {
@@ -186,7 +201,7 @@ public class DirectedGraph {
     }
 
     /**
-     * Returns the vertices in the graph.
+     * Returns all vertices in the graph object.
      * @return an array of strings representing the vertices in the graph
      */
     public String[] getVertexes(){
@@ -198,20 +213,18 @@ public class DirectedGraph {
     /**
      * A class to represent an edge in the graph, containing the value and the number of times we see the word pair.
      * <p>
-     * Note: The weight is defined as
-     * the frequency of the word pair / the number of edges.
-     * <p>
-     * EXAMPLE:
-     * if i have a word "hello" and in my text the words that come after hello are "world", "hi", and "jim",
-     * then "jim" would have a frequency of 1/3
+     * The weight is defined as the frequency of the word pair / the number of edges.
+     * (Ex: if a word "hello" has "world", "hi", and "jim" coming after it,
+     * then "jim" would have a weight of 1/3)
+     * Edge objects are comparable by weight, then alphanumerically.
      * @author Eli Parker & Jorden Dickerson
      * @version Apr 16, 2024
      */
-    public class Edge implements Comparable<Edge> {
+    private class Edge implements Comparable<Edge> {
 
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
-        private ArrayList<Edge> parentList; // saves the parent list for weight calculation
+        private final ArrayList<Edge> parentList; // saves a pointer to the parent list for weight calculation
 
         /**
          * Creates a new Edge object with 1 occurrence
@@ -219,6 +232,10 @@ public class DirectedGraph {
          */
         public Edge(String destination, ArrayList<Edge> parentList)
         {
+            if(destination == null || parentList == null)
+            {
+                throw new IllegalArgumentException("Destination and parentList cannot be null");
+            }
             this.destination = destination;
             this.occurrences = 1;
             this.parentList = parentList;
@@ -249,8 +266,14 @@ public class DirectedGraph {
             occurrences++;
         }
 
+        /**
+         * Compares the edge object to another edge object by weight, then alphanumerically.
+         * @param edge the object to be compared.
+         * @return a negative integer, zero, or a positive integer if this object is less than, equal to, or greater than the specified object respectively.
+         */
         @Override
-        public int compareTo(Edge edge) {
+        public int compareTo(Edge edge)
+        {
             int comparison = Double.compare(edge.getWeight(), this.getWeight());
             return comparison == 0 ? this.getDestination().compareTo(edge.getDestination()) : comparison;
         }
