@@ -57,7 +57,7 @@ public class GenerativeModel
         int i = 0;
         for(String vertex : vertexes)
         {
-            result[i] = formatWord(vertex + " - " + Arrays.toString(graph.getMostProbableList(vertex, 9989999)));
+            result[i] = vertex + " - " + Arrays.toString(formatWords(graph.getMostProbableList(vertex, 9989999)));
             i++;
         }
         return Arrays.toString(result);
@@ -84,7 +84,7 @@ public class GenerativeModel
         //convert the word to a character array and loop through each character
         for (char character : word.toCharArray()) {
             //if the character is a punctuation character, break the loop (no characters after an apostrophe are valid)
-            if (character == '\'' || character == '.' || character == ',' || character == '!' || character == '?' || character == ';' || character == ':') {
+            if (character == '\'' || character == '.'  || character == '!' || character == '?' || character == ';' || character == ':') {
                 break;
             }
             //if the character is a letter, add it to the result. ignore any other characters
@@ -95,6 +95,20 @@ public class GenerativeModel
         }
 
         return result.toString().toLowerCase();
+    }
+
+    public static String[] formatWords(String[] words)
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for(String word : words)
+        {
+            var formattedWord = formatWord(word);
+            if(!formattedWord.equals(""))
+            {
+                result.add(formattedWord);
+            }
+        }
+        return result.toArray(new String[0]);
     }
 
 
