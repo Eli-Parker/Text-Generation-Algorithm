@@ -28,14 +28,7 @@ public class TextGenerator
 
         GenerativeModel model;
         //check for valid filepath
-        try
-        {
-            model = new GenerativeModel(args[0]);
-        }
-        catch(FileNotFoundException e)
-        {
-            throw new FileNotFoundException("Filepath is invalid");
-        }
+        model = new GenerativeModel();
 
         if(args.length == 3)
         {

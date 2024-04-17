@@ -98,6 +98,7 @@ public class DirectedGraph {
     {
         if(adjList.containsKey(source))
         {
+            //TODO: find way to make random generation biased towards higher weights
             Random rng = new Random();
             return adjList.get(source).get(rng.nextInt(adjList.get(source).size())).getDestination();
         }

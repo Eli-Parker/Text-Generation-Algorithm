@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Added javadoc for formatWords function and tested on an actual book">
+    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Created a method to return a list of the weight of each vertex">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +93,7 @@
       <workItem from="1713245869909" duration="43000" />
       <workItem from="1713286389941" duration="3221000" />
       <workItem from="1713318876887" duration="533000" />
-      <workItem from="1713326206453" duration="2626000" />
+      <workItem from="1713326206453" duration="4975000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, added main class and javadocs for methods">
       <option name="closed" value="true" />
@@ -181,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713328343930</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Created a method to return a list of the weight of each vertex">
+      <option name="closed" value="true" />
+      <created>1713329131144</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1713329131144</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +210,7 @@
     <MESSAGE value="Fixed formatWord to cut off words after any punctuation character" />
     <MESSAGE value="Created formatStrings function and fixed formatting error in getGraph" />
     <MESSAGE value="Added javadoc for formatWords function and tested on an actual book" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added javadoc for formatWords function and tested on an actual book" />
+    <MESSAGE value="Created a method to return a list of the weight of each vertex" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created a method to return a list of the weight of each vertex" />
   </component>
 </project>
