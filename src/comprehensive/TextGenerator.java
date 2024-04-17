@@ -28,7 +28,7 @@ public class TextGenerator
 
         GenerativeModel model;
         //check for valid filepath
-        model = new GenerativeModel();
+        model = new GenerativeModel(args[0]);
 
         if(args.length == 3)
         {

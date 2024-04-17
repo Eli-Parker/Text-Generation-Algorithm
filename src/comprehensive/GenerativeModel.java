@@ -1,9 +1,8 @@
 package comprehensive;
 
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -11,6 +10,7 @@ import java.util.Scanner;
 
 /**
  * Contains a generative model algorithm which generates predicted text based on a given input.
+ * <P>
  *
  */
 public class GenerativeModel
@@ -21,10 +21,14 @@ public class GenerativeModel
     private DirectedGraph graph;
 
     /**
-     * Creates a new GenerativeModel object, initializing the graph
+     * Creates a new GenerativeModel object, initializes the graph
+     * and fills it with the words from the given file.
      */
-    public GenerativeModel(){
+    public GenerativeModel(String filePath) throws FileNotFoundException
+    {
+        //initialize the graph
         graph = new DirectedGraph();
+        createGraph(filePath);
     }
 
 
@@ -47,7 +51,7 @@ public class GenerativeModel
                 if(!previousWord.equals("") && !formattedWord.equals(""))
                 {
                     //if the word has a previous word, add a connection from the previous word to the current word
-                    this.graph.addConnection(previousWord, word);
+                    this.graph.addConnection(previousWord, formattedWord);
                 }
                 previousWord = formattedWord;
             }
@@ -55,8 +59,8 @@ public class GenerativeModel
     }
 
     /**
-     * spits out the graph's vertexes and nodes
-     *
+     * Gets the graph as a string
+     * @return the graph represented as a string
      */
     public String getGraph()
     {
@@ -65,7 +69,7 @@ public class GenerativeModel
         int i = 0;
         for(String vertex : vertexes)
         {
-            result[i] = vertex + " - " + Arrays.toString(formatWords(graph.getMostProbableList(vertex, 9989999)));
+            result[i] = vertex + " - " + graph.getMostProbableList(vertex, 9999999);
             i++;
         }
         return Arrays.toString(result);
@@ -95,7 +99,7 @@ public class GenerativeModel
             if (character == '\'' || character == '.'  || character == '!' || character == '?' || character == ';' || character == ':' || character == ',') {
                 break;
             }
-            //if the character is a letter, add it to the result. ignore any other characters
+            //if the character is valid (abc,0-9), add it to the result. ignore any other characters
             if(!(Character.toString(character).matches("[^\\w\\s]") || Character.toString(character).matches("_")))
             {
                 result.append(character);
@@ -126,40 +130,83 @@ public class GenerativeModel
 
 
     /**
-     * Generates text based on the given seed word and number of words to generate
-     * @param filename the file to generate text from
+     * Generates random text based on the given seed word and number of words to generate.
+     * This is the "all" generation type, which generates a random word each time.
      * @param seed the seed word to generate text from
-     * @param numOfWordsToGenerate the number of words to generate
-     * @throws FileNotFoundException if the file path is invalid
+     * @param numWords the number of words to generate
      */
 
-    public void generateText(String filename, String seed, int numOfWordsToGenerate) throws FileNotFoundException {
+    private void generateRandomText(String seed, int numWords) {
         StringBuilder result = new StringBuilder();
-        createGraph(filename); // fill the graph with the words from the file
-        String curWord = seed;
+        String curWord = formatWord(seed);
         //for the number of words to generate, add the formatted word to the result and get the next word
-        for(int i = 0; i < numOfWordsToGenerate; i++){
-            result.append(formatWord(curWord)).append(" ");
+        for(int i = 0; i <= numWords; i++){
+            result.append(curWord).append(" ");
             curWord = graph.getRandom(curWord); // set the current word to a random next word
             //if the current word is empty, set it to a random word
-            //TODO: this is a temporary fix, we need to find a better way to handle this
-            if(curWord.equals("")){
+            if(curWord.isEmpty()){
                 curWord = graph.getRandom(seed);
             }
         }
+        //print the result to the console
         System.out.println(result.toString());
     }
 
     /**
-     * Generates text based on the given seed word and number of words to generate, the type of generation to use is specified by the generationType
-     * @param filename the file to generate text from
+     * Generates text based on the given seed word and number of words to generate.
+     * This is the "one" generation type, which generates the most probable next word each time
+     * @param seed the seed word to generate text from
+     * @param numWords the number of words to generate
+     */
+    private void generateMostProbableText(String seed, int numWords)
+    {
+        StringBuilder result = new StringBuilder();
+        String curWord = formatWord(seed);
+        //for the number of words to generate, add the formatted word to the result and get the next word
+        for(int i = 0; i <= numWords; i++){
+            result.append(curWord).append(" ");
+            curWord = graph.getMax(curWord); // set the current word to a random next word
+            //if the current word is empty, set it to a random word
+            if(curWord.isEmpty()){
+                curWord = graph.getMax(seed);
+            }
+        }
+        //print the result to the console
+        System.out.println(result.toString());
+    }
+
+    private void generateKMostProbable(String seed, int K)
+    {
+        String curWord = formatWord(seed);
+        System.out.println(graph.getMostProbableList(curWord, K));
+
+    }
+
+
+    /**
+     * Generates text based on the given seed word and number of words to generate,
+     * the type of generation to use is specified by the generationType
      * @param seed the seed word to generate text from
      * @param numOfWordsToGenerate the number of words to generate
      * @param generationType the type of generation to use, must be either "all" or "one"
-     * @throws FileNotFoundException if the file path is invalid
+     * @throws IllegalArgumentException if the generation type is not "all" or "one"
      */
-    public void generateText(String filename, String seed, int numOfWordsToGenerate, String generationType){
-        StringBuilder result = new StringBuilder();
+    public void generateText(String seed, int numOfWordsToGenerate, String generationType)
+    {
+        if(generationType.equalsIgnoreCase("all"))
+        {
+            System.out.println("Generating random text...");
+            generateRandomText(seed, numOfWordsToGenerate);
+        }
+        else if(generationType.equalsIgnoreCase("one"))
+        {
+            System.out.println("Generating most probable text...");
+            generateMostProbableText(seed, numOfWordsToGenerate);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid generation type");
+        }
 
     }
 

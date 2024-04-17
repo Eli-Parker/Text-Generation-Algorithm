@@ -3,9 +3,11 @@
 This is a representation of a very simple text prediction algorithm which processes a 
 text file and returns K words of predicted text based on a "seed" file provided in a command line argument. 
 The implementation uses a directed graph to assign weights to each word based on the frequency of that word 
-coming after the previous one, and uses Dijkstra's algorithm to make a "path" from word to word.
+coming after the previous one, and uses Dijkstra's algorithm to make a "path" from word to word. 
+This is known as a "Markov Chain" model, and is a very simple way to predict text. 
+More info on Markov Chains can be found [here](https://en.wikipedia.org/wiki/Markov_chain).
 
-Notably this is a similar model to that of ChatGPT at a *much* smaller scale, hence the tongue in cheek name. 
+Notably this is a similar result to that of ChatGPT at a *much* smaller scale, hence the tongue in cheek name. 
 
  ** **This program has _NO_ affiliation with OpenAI. We are only using the GPT suffix as a 
 quick reference to identify the program's function.** **

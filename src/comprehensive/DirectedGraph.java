@@ -29,6 +29,7 @@ public class DirectedGraph {
 
     /**
      * Adds a connection to the graph.
+     * If the connection already exists, it increases the occurrences.
      * @param source the source node
      * @param destination the destination node
      */
@@ -66,12 +67,15 @@ public class DirectedGraph {
             //If source isn't found, add the source to the HashMaps
             ArrayList<Edge> edges = new ArrayList<>();
             PriorityQueue<Edge> priorityEdges = new PriorityQueue<>();
-
-            var edge = new Edge(destination,edges); // add a new edge with the destination str & 1 occurrence
-            priorityEdges.add(edge);
-            edges.add(edge);
-            adjList.put(source,edges);
-            priorityAdjList.put(source,priorityEdges);
+            //add the destination to the source
+            if(!destination.isEmpty())
+            {
+                var edge = new Edge(destination, edges); // add a new edge with the destination str & 1 occurrence
+                edges.add(edge);
+                priorityEdges.add(edge);
+            }
+            adjList.put(source, edges);
+            priorityAdjList.put(source, priorityEdges);
         }
     }
 
@@ -98,9 +102,11 @@ public class DirectedGraph {
     {
         if(adjList.containsKey(source))
         {
-            //TODO: find way to make random generation biased towards higher weights
             Random rng = new Random();
-            return adjList.get(source).get(rng.nextInt(adjList.get(source).size())).getDestination();
+            //make a weighted random number which skews toward higher weights
+            double skew = 0.5;
+            int randResult = (int) Math.floor(Math.pow(rng.nextDouble(), skew) * adjList.get(source).size());
+            return adjList.get(source).get(randResult).getDestination();
         }
         return "";
     }
@@ -112,22 +118,22 @@ public class DirectedGraph {
      * @param K the number of words to return. Note that if K is greater than the number of connections, it will return all connections
      * @return an ordered list of K words that come after the source word, or an empty list if there are no connections
      */
-    public String[] getMostProbableList(String source, int K)
+    public String getMostProbableList(String source, int K)
     {
+        StringBuilder result = new StringBuilder();
         if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
             //copy the priorityQueue so we don't compromise the original
             var originalQueue = new PriorityQueue<>(priorityAdjList.get(source));
 
-            String[] list = new String[priorityAdjList.get(source).size()];//return value
 
             //iterate until we go through entire list or get to K
             for(int i=0;i < priorityAdjList.get(source).size() && i < K;i++)
             {
-                list[i] = Objects.requireNonNull(originalQueue.poll().getDestination());
+                result.append(originalQueue.poll().getDestination()).append(", ");
             }
-            return list;
+            return result.toString();
         }
-        return new String[0]; //return an empty array if there are no connections
+        return ""; //return an empty String if there are no connections
     }
 
 
@@ -149,7 +155,7 @@ public class DirectedGraph {
             //iterate until we go through entire list or get to K
             for(int i=0;i < priorityAdjList.get(source).size() && i < K;i++)
             {
-                list[i] = Objects.requireNonNull(originalQueue.poll().getWeight());
+                list[i] = originalQueue.poll().getWeight();
             }
             return list;
         }
@@ -165,6 +171,24 @@ public class DirectedGraph {
         return adjList.size();
     }
 
+    /**
+     * Returns the edges for any vertex in the graph.
+     * @param source the source node
+     * @return a string representing the edges of the graph
+     */
+    public String getEdges(String source)
+    {
+        if(adjList.containsKey(source))
+        {
+            return adjList.get(source).toString();
+        }
+        return "NOTHING FOUND";
+    }
+
+    /**
+     * Returns the vertices in the graph.
+     * @return an array of strings representing the vertices in the graph
+     */
     public String[] getVertexes(){
         return adjList.keySet().toArray(new String[0]);
     }

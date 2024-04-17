@@ -11,7 +11,11 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.BeforeEach
     void setUp()
     {
-        model = new GenerativeModel();
+        try {
+            model = new GenerativeModel("abc.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("Oh no!");
+        }
 
     }
 
@@ -33,13 +37,16 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.Test
     void testBasicOutput()
     {
-//        assertEquals("[a - [b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]]", model.getGraph());
+        //assertEquals("[a - [b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]]", model.getGraph());
         System.out.println(model.getGraph());
     }
 
     @org.junit.jupiter.api.Test
     void testGenerateText() throws FileNotFoundException
     {
-        model.generateText("the-old-english-physiologus.txt", "the", 10);
+        var sample1 = "the-old-english-physiologus.txt";
+        var beeMovie = "beeMovie.txt";
+        var model2 = new GenerativeModel(beeMovie);
+        model2.generateText( "oh", 50,"all");
     }
 }
