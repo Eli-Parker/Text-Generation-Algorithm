@@ -34,7 +34,7 @@ public class GenerativeModel
     /**
      * Generates text based on the given seed word and number of words to generate,
      * The type of generation to use is specified by the generationType.
-     * This represents the 4 command-line argument case
+     * This represents the 4 command-line argument case.
      * @param seed the seed word to generate text from
      * @param numOfWordsToGenerate the number of words to generate
      * @param generationType the type of generation to use, must be either "all" or "one"
@@ -58,6 +58,22 @@ public class GenerativeModel
                 throw new IllegalArgumentException("Invalid generation type");
         }
     }
+
+    /**
+     * Generates text based on the given seed word and number of words to generate.
+     * This represents the 3 command-line argument case.
+     * @param seed the seed word to generate text from
+     * @param K the number of most probable words to return
+     */
+    public void generateText(String seed, int K)
+    {
+        //get the most probable words that come after the seed word
+        String curWord = formatWord(seed);
+        System.out.println(graph.getMostProbableList(curWord, K));
+    }
+
+
+
 
 
     /**
@@ -133,18 +149,6 @@ public class GenerativeModel
         System.out.println(result);
     }
 
-    /**
-     * Generates the K most probable words that come after the given seed word.
-     * @param seed the seed word to generate the most probable words from
-     * @param K the number of words to generate
-     */
-    public void generateKMostProbable(String seed, int K)
-    {
-        //get the most probable words that come after the seed word
-        String curWord = formatWord(seed);
-        System.out.println(graph.getMostProbableList(curWord, K));
-
-    }
 
     /**
      * Removes bad formatting from the given word

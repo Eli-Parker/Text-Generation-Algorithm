@@ -135,10 +135,10 @@ public class DirectedGraph {
             {
                 //append the destination of the edge to the result
                 if(originalQueue.peek() != null)
-                    result.append(originalQueue.poll().getDestination()).append(", ");
+                    result.append(originalQueue.poll().getDestination()).append(" ");
 
             }
-            //add the last element without a comma
+            //add the last element without whitespace
             if(originalQueue.peek() != null)
                 result.append(originalQueue.poll().getDestination());
             return result.toString();

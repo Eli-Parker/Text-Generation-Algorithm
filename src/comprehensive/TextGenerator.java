@@ -27,43 +27,43 @@ import java.io.FileNotFoundException;
  */
 public class TextGenerator
 {
-    //for the third command line argument, dictates how many words to generate
-    private int K;
-    //TODO finish readme
     /**
      * Method where actual code is run.
      * @param args command line arguments to add to program, usage detailed in Class Javadoc
      * @throws FileNotFoundException if the given filepath is invalid
+     * @throws IllegalArgumentException if the 3rd argument is not an integer, or if the number of arguments is incorrect
      */
-    public static void main(String[] args) throws FileNotFoundException
+    public static void main(String[] args) throws FileNotFoundException, IllegalArgumentException
     {
         //take the file path argument and pass into generative model
-
         GenerativeModel model;
         //check for valid filepath
         model = new GenerativeModel(args[0]);
 
-        if(args.length == 3)
+        //check to see that args[2] is a valid integer
+        try
         {
-            //return k words for the given word
-
-        }else if (args.length == 4)
-        {
-            //return k predicted words for the given seed word
-
-
-        }else
-        {
-            throw new IllegalArgumentException("Incorrect number of command line arguments");
+            Integer.parseInt(args[2]);
         }
-        //TODO the process
-        /*
-            1. handle command line arguments.
-                - first, We will have to first take the file as the first argument and process it,
-                  we should likely make a second class in the package dedicated to this process.
-                - second, the seed word. This is what we'll generate our text from
-                - a variable K for the third argument, tells us how many words to predict
-                - handle fourth arg according to assignment spec
-         */
+        catch(NumberFormatException e)
+        {
+            throw new IllegalArgumentException("Third argument must be an integer");
+        }
+
+        //switch on the number of command line arguments
+        switch(args.length)
+        {
+            case 3:
+                //return k most probable words for the given word
+                model.generateText(args[1], Integer.parseInt(args[2]));
+                break;
+            case 4:
+                //return k predicted words for the given seed word
+                model.generateText(args[1], Integer.parseInt(args[2]), args[3]);
+                break;
+            default:
+                //incorrect number of command line arguments, throw exception
+                throw new IllegalArgumentException("Incorrect number of command line arguments");
+        }
     }
 }
