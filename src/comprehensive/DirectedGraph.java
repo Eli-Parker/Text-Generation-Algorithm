@@ -129,6 +129,32 @@ public class DirectedGraph {
         return new String[0]; //return an empty array if there are no connections
     }
 
+
+    /**
+     * Gets the list of K most probable weights that come after the source word.
+     * in order from most probable to least probable.
+     * @param source the word to get all the connections of
+     * @param K the number of words to return. Note that if K is greater than the number of connections, it will return all connections
+     * @return an ordered list of K words that come after the source word, or an empty list if there are no connections
+     */
+    public Double[] getMostProbableListWeights(String source, int K)
+    {
+        if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
+            //copy the priorityQueue so we don't compromise the original
+            var originalQueue = new PriorityQueue<>(priorityAdjList.get(source));
+
+            Double[] list = new Double[priorityAdjList.get(source).size()];//return value
+
+            //iterate until we go through entire list or get to K
+            for(int i=0;i < priorityAdjList.get(source).size() && i < K;i++)
+            {
+                list[i] = Objects.requireNonNull(originalQueue.poll().getWeight());
+            }
+            return list;
+        }
+        return new Double[0]; //return an empty array if there are no connections
+    }
+
     /**
      * Returns the number of vertices in the graph.
      * @return an integer representing the number of vertices in the graph
