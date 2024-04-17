@@ -57,7 +57,7 @@ public class GenerativeModel
         int i = 0;
         for(String vertex : vertexes)
         {
-            result[i] = vertex + " - " + Arrays.toString(graph.getMostProbableList(vertex, 9989999));
+            result[i] = formatWord(vertex + " - " + Arrays.toString(graph.getMostProbableList(vertex, 9989999)));
             i++;
         }
         return Arrays.toString(result);
@@ -83,8 +83,8 @@ public class GenerativeModel
         StringBuilder result = new StringBuilder(word.length());
         //convert the word to a character array and loop through each character
         for (char character : word.toCharArray()) {
-            //if the character is an apostrophe, break the loop (no characters after an apostrophe are valid)
-            if (character == '\'') {
+            //if the character is a punctuation character, break the loop (no characters after an apostrophe are valid)
+            if (character == '\'' || character == '.' || character == ',' || character == '!' || character == '?' || character == ';' || character == ':') {
                 break;
             }
             //if the character is a letter, add it to the result. ignore any other characters

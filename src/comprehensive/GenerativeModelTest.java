@@ -12,10 +12,10 @@ public class GenerativeModelTest {
     void setUp()
     {
         try {
-            model = new GenerativeModel("GPT-0.1/abc.txt");
+            model = new GenerativeModel("trickyFormatting.txt");
         }catch(FileNotFoundException e)
         {
-            System.out.println("fuck");
+            throw new RuntimeException("File not found");
         }
     }
 
@@ -25,7 +25,7 @@ public class GenerativeModelTest {
         assertEquals("",GenerativeModel.formatWord("'ere's"));
         assertEquals("normal",GenerativeModel.formatWord("normal"));
         assertEquals("normal",GenerativeModel.formatWord("NORMAL"));
-        assertEquals("normal",GenerativeModel.formatWord("N#OR@M%A/?.>,<!~`][;|}{:=-+_)(*&^%$#@#L"));
+        assertEquals("norm",GenerativeModel.formatWord("N#O#R#M#.A#L"));
         assertEquals("hehehe",GenerativeModel.formatWord("hehehe'ha"));
     }
 
