@@ -31,7 +31,7 @@ class DirectedGraphTest {
     @org.junit.jupiter.api.Test
     void getMostProbableList()
     {
-        var expected = "its, world";
+        var expected = "its world";
         var actual = graph.getMostProbableList("hello",2);
         assertEquals(expected,actual);
     }

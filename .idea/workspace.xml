@@ -4,12 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Created a method to return a list of the weight of each vertex">
+    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Finshed TextGenerator.java, finished GenerativeModel.java, cleanup and testing needed">
+      <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph$Edge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comprehensive/warAndPeace.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abc.txt" beforeDir="false" afterPath="$PROJECT_DIR$/abc.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +63,7 @@
     "JUnit.GenerativeModelTest.executor": "Run",
     "JUnit.GenerativeModelTest.testBasicOutput.executor": "Run",
     "JUnit.GenerativeModelTest.testGenerateText.executor": "Run",
+    "JUnit.GenerativeModelTest.testTrickyFormatting.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -70,16 +78,23 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Eli Parker\Documents\GitHub\assign06linkedliststack\GPT-0.1" />
+      <recent name="C:\Users\Eli Parker\Documents\GitHub\assign06linkedliststack\GPT-0.1\src\comprehensive" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="comprehensive" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.GenerativeModelTest.testTrickyFormatting">
     <configuration name="DirectedGraphTest.getMostProbableList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="GPT -1" />
       <extension name="coverage">
@@ -128,11 +143,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GenerativeModelTest.testTrickyFormatting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GPT -1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="comprehensive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="comprehensive" />
+      <option name="MAIN_CLASS_NAME" value="comprehensive.GenerativeModelTest" />
+      <option name="METHOD_NAME" value="testTrickyFormatting" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DirectedGraphTest.getMostProbableList" />
+        <item itemvalue="JUnit.GenerativeModelTest.testTrickyFormatting" />
         <item itemvalue="JUnit.GenerativeModelTest.testBasicOutput" />
         <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
+        <item itemvalue="JUnit.DirectedGraphTest.getMostProbableList" />
       </list>
     </recent_temporary>
   </component>
@@ -156,6 +188,7 @@
       <workItem from="1713286389941" duration="3221000" />
       <workItem from="1713318876887" duration="533000" />
       <workItem from="1713326206453" duration="4975000" />
+      <workItem from="1713387263329" duration="11565000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, added main class and javadocs for methods">
       <option name="closed" value="true" />
@@ -253,7 +286,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713329131144</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Cleaned up DirectedGraph.java, made progress on GenerativeModel.java">
+      <option name="closed" value="true" />
+      <created>1713385013776</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1713385013776</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Finshed TextGenerator.java, finished GenerativeModel.java, cleanup and testing needed">
+      <option name="closed" value="true" />
+      <created>1713385620915</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1713385620915</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,7 +322,9 @@
     <MESSAGE value="Created formatStrings function and fixed formatting error in getGraph" />
     <MESSAGE value="Added javadoc for formatWords function and tested on an actual book" />
     <MESSAGE value="Created a method to return a list of the weight of each vertex" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created a method to return a list of the weight of each vertex" />
+    <MESSAGE value="Cleaned up DirectedGraph.java, made progress on GenerativeModel.java" />
+    <MESSAGE value="Finshed TextGenerator.java, finished GenerativeModel.java, cleanup and testing needed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finshed TextGenerator.java, finished GenerativeModel.java, cleanup and testing needed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -283,6 +334,11 @@
           <line>34</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/comprehensive/GenerativeModel.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -290,10 +346,5 @@
         <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="key" />
       </pinned-members>
     </pin-to-top-manager>
-    <watches-manager>
-      <configuration name="JUnit">
-        <watch expression="priorityAdjList" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

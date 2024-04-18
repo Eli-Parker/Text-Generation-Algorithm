@@ -87,7 +87,7 @@ public class GenerativeModel
         //for each line in the file, separate the words and add them to the graph as connections
         while(scanner.hasNextLine())
         {
-            String[] words = scanner.nextLine().split(" ");
+            String[] words = scanner.nextLine().trim().replaceAll(" +", " ").split(" ");
             String previousWord = "";
             for(String word : words)
             {
@@ -113,15 +113,28 @@ public class GenerativeModel
     private void generateRandomText(String seed, int numWords) {
         StringBuilder result = new StringBuilder();
         String curWord = formatWord(seed);
+
         //for the number of words to generate, add the formatted word to the result and get the next word
-        for(int i = 0; i < numWords; i++){
+        for (int i = 0; i < numWords - 1; i++) {
             result.append(curWord).append(" ");
             curWord = graph.getRandom(curWord); // set the current word to a random next word
+
             //if the current word is empty, set it to a random word
-            if(curWord.isEmpty()){
+            if (curWord.isEmpty())
                 curWord = graph.getRandom(seed);
-            }
+            //if the current word is still empty, set it to the seed word
+            if (curWord.isEmpty())
+                curWord = formatWord(seed);
         }
+        //add the last word to the result without whitespace
+        if(numWords > 0) {
+            if(!curWord.isEmpty())
+                result.append(curWord);
+            else
+                result.append(seed);
+        }
+
+
         //print the result to the console
         System.out.println(result);
     }
@@ -137,14 +150,20 @@ public class GenerativeModel
         StringBuilder result = new StringBuilder();
         String curWord = formatWord(seed);
         //for the number of words to generate, add the formatted word to the result and get the next word
-        for(int i = 0; i <= numWords; i++){
+        for(int i = 0; i < numWords - 1; i++){
             result.append(curWord).append(" ");
             curWord = graph.getMax(curWord); // set the current word to a random next word
             //if the current word is empty, set it to a random word
-            if(curWord.isEmpty()){
-                curWord = graph.getMax(seed);
-            }
+            if (curWord.isEmpty())
+                curWord = graph.getRandom(seed);
+            //if the current word is still empty, set it to the seed word
+            if (curWord.isEmpty())
+                curWord = formatWord(seed);
         }
+        if(numWords > 0 && !curWord.isEmpty())
+            result.append(curWord);
+        else if(curWord.isEmpty())
+            result.append(seed);
         //print the result to the console
         System.out.println(result);
     }
@@ -162,7 +181,7 @@ public class GenerativeModel
         //convert the word to a character array and loop through each character
         for (char character : word.toCharArray()) {
             //if the character is a punctuation character, break the loop (no characters after an apostrophe are valid)
-            if (character == '\'' || character == '.'  || character == '!' || character == '?' || character == ';' || character == ':' || character == ',') {
+            if (Character.toString(character).matches("[^\\w\\s]")){
                 break;
             }
             //if the character is valid (abc,0-9), add it to the result. ignore any other characters

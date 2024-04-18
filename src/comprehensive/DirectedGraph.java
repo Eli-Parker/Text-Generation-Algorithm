@@ -108,7 +108,7 @@ public class DirectedGraph {
         {
             Random rng = new Random();
             //make a weighted random number which skews toward higher weights
-            double skew = 0.5;
+            double skew = 0.78; //TODO test best skew value
             int randResult = (int) Math.floor(Math.pow(rng.nextDouble(), skew) * adjList.get(source).size());
             return adjList.get(source).get(randResult).getDestination();
         }

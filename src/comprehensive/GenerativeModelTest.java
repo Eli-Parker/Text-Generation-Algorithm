@@ -25,20 +25,21 @@ public class GenerativeModelTest {
         assertEquals("",GenerativeModel.formatWord("'ere's"));
         assertEquals("normal",GenerativeModel.formatWord("normal"));
         assertEquals("normal",GenerativeModel.formatWord("NORMAL"));
-        assertEquals("norm",GenerativeModel.formatWord("N#O#R#M#.A#L"));
+        assertEquals("n",GenerativeModel.formatWord("N#O#R#M#.A#L"));
         assertEquals("hehehe",GenerativeModel.formatWord("hehehe'ha"));
     }
 
     @org.junit.jupiter.api.Test
-    void testSize()
-    {
+    void testTrickyFormatting() throws FileNotFoundException {
+        var file = "trickyFormatting.txt";
+        var model2 = new GenerativeModel(file);
+        System.out.println( model2.getGraph());
     }
 
     @org.junit.jupiter.api.Test
     void testBasicOutput()
     {
-        //assertEquals("[a - [b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]]", model.getGraph());
-        System.out.println(model.getGraph());
+        assertEquals("[a - b c d e f g h i j k l m n o p q r s t u v w x y z, z - c a b]", model.getGraph());
     }
 
     @org.junit.jupiter.api.Test
@@ -47,6 +48,6 @@ public class GenerativeModelTest {
         var sample1 = "the-old-english-physiologus.txt";
         var beeMovie = "beeMovie.txt";
         var model2 = new GenerativeModel(beeMovie);
-        model2.generateText( "oh", 50,"all");
+        model2.generateText( "oh", 10,"all");
     }
 }
