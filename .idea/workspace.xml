@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Fixed a bug involving resetting to the source node">
+    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helloWorld.txt" beforeDir="false" afterPath="$PROJECT_DIR$/helloWorld.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/warAndPeace.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/warAndPeace.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +81,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="C:\Users\Eli Parker\Documents\GitHub\assign06linkedliststack\GPT-0.1" />
       <recent name="C:\Users\Eli Parker\Documents\GitHub\assign06linkedliststack\GPT-0.1\src\comprehensive" />
     </key>
@@ -85,7 +89,7 @@
       <recent name="comprehensive" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GenerativeModelTest.testTrickyFormatting">
+  <component name="RunManager">
     <configuration name="DirectedGraphTest.getMostProbableList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="GPT -1" />
       <extension name="coverage">
@@ -302,7 +306,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713404996215</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!">
+      <option name="closed" value="true" />
+      <created>1713460736645</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1713460736645</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,7 +339,9 @@
     <MESSAGE value="Bug Squashing, polishing of methods" />
     <MESSAGE value="Bug Squashing, polishing of methods, updated README.md" />
     <MESSAGE value="Fixed a bug involving resetting to the source node" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug involving resetting to the source node" />
+    <MESSAGE value="Sqashed a few more word formatting bugs" />
+    <MESSAGE value="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -336,11 +350,6 @@
           <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java</url>
           <line>34</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraph.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java</url>

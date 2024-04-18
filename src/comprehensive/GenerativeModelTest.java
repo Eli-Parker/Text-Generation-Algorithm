@@ -39,7 +39,7 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.Test
     void testBasicOutput()
     {
-        assertEquals("[a - b c d e f g h i j k l m n o p q r s t u v w x y z, z - c a b]", model.getGraph());
+        assertEquals("[a - z b c d e f g h i j k l m n o p q r s t u v w x y, b - a z, c - a z, d - a, e - a, f - a, g - a, h - a, i - a, j - a, k - a, l - a, m - a, n - a, o - a, p - a, q - a, r - a, s - a, t - a, u - a, v - a, w - a, x - a, y - a, z - c a b z]", model.getGraph());
     }
 
     @org.junit.jupiter.api.Test
@@ -49,6 +49,6 @@ public class GenerativeModelTest {
         var sample1 = "the-old-english-physiologus.txt";
         var beeMovie = "beeMovie.txt";
         var model2 = new GenerativeModel("abc.txt");
-        model2.generateText( "a", 2000, "all");
+        model2.generateText( "a", 10, "all");
     }
 }

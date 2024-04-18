@@ -122,21 +122,18 @@ public class GenerativeModel
             result.append(curWord).append(" ");
             curWord = graph.getRandom(curWord); // set the current word to a random next word
 
-//            //if the current word is empty, set it to a random word
-//            if (curWord.isEmpty())
-//                curWord = graph.getRandom(seed);
             //if the current word is empty, set it to the seed word
             if (curWord.isEmpty())
                 curWord = formatWord(seed);
         }
         //add the last word to the result without whitespace
-        if(numWords > 0) {
+        if(numWords > 0)
+        {
             if(!curWord.isEmpty())
                 result.append(curWord);
             else
                 result.append(seed);
         }
-
 
         //print the result to the console
         System.out.println(result);
@@ -156,14 +153,20 @@ public class GenerativeModel
         for(int i = 0; i < numWords - 1; i++){
             result.append(curWord).append(" ");
             curWord = graph.getMax(curWord); // set the current word to the maximum word
+
             //if the current word is still empty, set it to the seed word
             if (curWord.isEmpty())
                 curWord = formatWord(seed);
         }
-        if(numWords > 0 && !curWord.isEmpty())
-            result.append(curWord);
-        else if(curWord.isEmpty())
-            result.append(seed);
+
+        //add the last word to the result without whitespace
+        if(numWords > 0)
+        {
+            if(!curWord.isEmpty())
+                result.append(curWord);
+            else
+                result.append(seed);
+        }
         //print the result to the console
         System.out.println(result);
     }
@@ -184,7 +187,7 @@ public class GenerativeModel
             if (Character.toString(character).matches("[^\\w\\s]")){
                 break;
             }
-            //if the character is valid (abc,0-9), add it to the result. ignore any other characters
+            //if the character is valid (abc,0-9,_), add it to the result. ignore any other characters
             result.append(character);
         }
 
