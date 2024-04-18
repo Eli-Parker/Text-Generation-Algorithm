@@ -85,10 +85,10 @@ public class GenerativeModel
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);
         //for each line in the file, separate the words and add them to the graph as connections
+        String previousWord = "";
         while(scanner.hasNextLine())
         {
             String[] words = scanner.nextLine().trim().replaceAll(" +", " ").split(" ");
-            String previousWord = "";
             for(String word : words)
             {
                 var formattedWord = formatWord(word); // format the word
@@ -97,7 +97,10 @@ public class GenerativeModel
                     //if the word has a previous word, add a connection from the previous word to the current word
                     this.graph.addConnection(previousWord, formattedWord);
                 }
-                previousWord = formattedWord;
+                //if the formatted word is not empty, set the previous word to the current word
+                if(!formattedWord.isEmpty()) {
+                    previousWord = formattedWord;
+                }
             }
         }
     }
