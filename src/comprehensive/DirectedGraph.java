@@ -104,13 +104,19 @@ public class DirectedGraph {
      */
     public String getRandom(String source)
     {
-        if(adjList.containsKey(source))
+        if(priorityAdjList.containsKey(source) && !priorityAdjList.get(source).isEmpty())
         {
             Random rng = new Random();
             //make a weighted random number which skews toward higher weights
-            double skew = 0.78; //TODO test best skew value
-            int randResult = (int) Math.floor(Math.pow(rng.nextDouble(), skew) * adjList.get(source).size());
-            return adjList.get(source).get(randResult).getDestination();
+            double skew = 0.11; //TODO test best skew value
+            int randResult = (int) Math.floor(Math.pow(rng.nextDouble(), skew) * priorityAdjList.get(source).size());
+            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
+
+            for(int i=0;i < randResult;i++)
+            {
+                edgeListCopy.poll();
+            }
+            return (edgeListCopy.peek() != null) ? edgeListCopy.peek().getDestination() : priorityAdjList.get(source).peek().getDestination();
         }
         return "";
     }
@@ -127,20 +133,20 @@ public class DirectedGraph {
         StringBuilder result = new StringBuilder();
         if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
             //copy the priorityQueue so we don't compromise the original
-            var originalQueue = new PriorityQueue<>(priorityAdjList.get(source));
+            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
 
 
             //iterate until we go through entire list or get to K
             for(int i=0;i < priorityAdjList.get(source).size() - 1 && i < K - 1;i++)
             {
                 //append the destination of the edge to the result
-                if(originalQueue.peek() != null)
-                    result.append(originalQueue.poll().getDestination()).append(" ");
+                if(edgeListCopy.peek() != null)
+                    result.append(edgeListCopy.poll().getDestination()).append(" ");
 
             }
             //add the last element without whitespace
-            if(originalQueue.peek() != null)
-                result.append(originalQueue.poll().getDestination());
+            if(edgeListCopy.peek() != null)
+                result.append(edgeListCopy.poll().getDestination());
             return result.toString();
         }
         return ""; //return an empty String if there are no connections
@@ -161,15 +167,15 @@ public class DirectedGraph {
     {
         if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
             //copy the priorityQueue so we don't compromise the original
-            var originalQueue = new PriorityQueue<>(priorityAdjList.get(source));
+            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
 
             Double[] list = new Double[priorityAdjList.get(source).size()];//return value
 
             //iterate until we go through entire list or get to K
-            for(int i=0;i < originalQueue.size() && i < K;i++)
+            for(int i=0;i < edgeListCopy.size() && i < K;i++)
             {
-                if(originalQueue.peek() != null)
-                    list[i] = originalQueue.poll().getWeight();
+                if(edgeListCopy.peek() != null)
+                    list[i] = edgeListCopy.poll().getWeight();
             }
             return list;
         }

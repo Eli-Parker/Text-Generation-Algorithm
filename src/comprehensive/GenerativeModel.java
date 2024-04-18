@@ -119,10 +119,10 @@ public class GenerativeModel
             result.append(curWord).append(" ");
             curWord = graph.getRandom(curWord); // set the current word to a random next word
 
-            //if the current word is empty, set it to a random word
-            if (curWord.isEmpty())
-                curWord = graph.getRandom(seed);
-            //if the current word is still empty, set it to the seed word
+//            //if the current word is empty, set it to a random word
+//            if (curWord.isEmpty())
+//                curWord = graph.getRandom(seed);
+            //if the current word is empty, set it to the seed word
             if (curWord.isEmpty())
                 curWord = formatWord(seed);
         }
@@ -152,10 +152,7 @@ public class GenerativeModel
         //for the number of words to generate, add the formatted word to the result and get the next word
         for(int i = 0; i < numWords - 1; i++){
             result.append(curWord).append(" ");
-            curWord = graph.getMax(curWord); // set the current word to a random next word
-            //if the current word is empty, set it to a random word
-            if (curWord.isEmpty())
-                curWord = graph.getRandom(seed);
+            curWord = graph.getMax(curWord); // set the current word to the maximum word
             //if the current word is still empty, set it to the seed word
             if (curWord.isEmpty())
                 curWord = formatWord(seed);
