@@ -12,7 +12,7 @@ public class GenerativeModelTest {
     void setUp()
     {
         try {
-            model = new GenerativeModel("abc.txt");
+            model = new GenerativeModel("GPT-0.1/abc.txt");
         } catch (FileNotFoundException e) {
             System.out.println("Oh no!");
         }
@@ -26,14 +26,14 @@ public class GenerativeModelTest {
         assertEquals("normal",GenerativeModel.formatWord("normal"));
         assertEquals("normal",GenerativeModel.formatWord("NORMAL"));
         assertEquals("n",GenerativeModel.formatWord("N#O#R#M#.A#L"));
-        assertEquals("hehehe",GenerativeModel.formatWord("hehehe'ha"));
+        assertEquals("hehe_he",GenerativeModel.formatWord("hehe_he'ha"));
     }
 
     @org.junit.jupiter.api.Test
     void testTrickyFormatting() throws FileNotFoundException {
-        var file = "trickyFormatting.txt";
+        var file = "GPT-0.1/trickyFormatting.txt";
         var model2 = new GenerativeModel(file);
-        System.out.println( model2.getGraph());
+        System.out.println(model2.getGraph());
     }
 
     @org.junit.jupiter.api.Test
@@ -46,8 +46,8 @@ public class GenerativeModelTest {
     void testGenerateText() throws FileNotFoundException
     {
         var sample1 = "the-old-english-physiologus.txt";
-        var beeMovie = "beeMovie.txt";
+        var beeMovie = "GPT-0.1/beeMovie.txt";
         var model2 = new GenerativeModel(beeMovie);
-        model2.generateText( "oh", 10,"all");
+        model2.generateText( "barry", 10, "all");
     }
 }

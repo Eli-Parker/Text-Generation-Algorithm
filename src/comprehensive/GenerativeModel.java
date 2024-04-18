@@ -185,10 +185,7 @@ public class GenerativeModel
                 break;
             }
             //if the character is valid (abc,0-9), add it to the result. ignore any other characters
-            if(!(Character.toString(character).matches("[^\\w\\s]") || Character.toString(character).matches("_")))
-            {
-                result.append(character);
-            }
+            result.append(character);
         }
 
         return result.toString().toLowerCase();
