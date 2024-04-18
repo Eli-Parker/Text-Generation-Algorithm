@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Bug Squashing, polishing of methods, updated README.md">
+    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Fixed a bug involving resetting to the source node">
       <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph$Edge.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abc.txt" beforeDir="false" afterPath="$PROJECT_DIR$/abc.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +90,7 @@
       <recent name="comprehensive" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.GenerativeModelTest.testGenerateText">
     <configuration name="DirectedGraphTest.getMostProbableList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="GPT -1" />
       <extension name="coverage">
@@ -157,9 +157,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
         <item itemvalue="JUnit.GenerativeModelTest.testTrickyFormatting" />
         <item itemvalue="JUnit.GenerativeModelTest.testBasicOutput" />
-        <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
         <item itemvalue="JUnit.DirectedGraphTest.getMostProbableList" />
       </list>
     </recent_temporary>
@@ -184,7 +184,7 @@
       <workItem from="1713286389941" duration="3221000" />
       <workItem from="1713318876887" duration="533000" />
       <workItem from="1713326206453" duration="4975000" />
-      <workItem from="1713387263329" duration="14181000" />
+      <workItem from="1713387263329" duration="16300000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, added main class and javadocs for methods">
       <option name="closed" value="true" />
@@ -306,7 +306,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713400746308</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Fixed a bug involving resetting to the source node">
+      <option name="closed" value="true" />
+      <created>1713404996215</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1713404996215</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +338,8 @@
     <MESSAGE value="Finshed TextGenerator.java, finished GenerativeModel.java, cleanup and testing needed" />
     <MESSAGE value="Bug Squashing, polishing of methods" />
     <MESSAGE value="Bug Squashing, polishing of methods, updated README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug Squashing, polishing of methods, updated README.md" />
+    <MESSAGE value="Fixed a bug involving resetting to the source node" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug involving resetting to the source node" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -339,6 +348,11 @@
           <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java</url>
           <line>34</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraph.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -45,9 +45,10 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.Test
     void testGenerateText() throws FileNotFoundException
     {
+        //testing the abc file to see the proportions of the values it answers on
         var sample1 = "the-old-english-physiologus.txt";
         var beeMovie = "beeMovie.txt";
-        var model2 = new GenerativeModel(beeMovie);
-        model2.generateText( "barry", 10, "all");
+        var model2 = new GenerativeModel("abc.txt");
+        model2.generateText( "a", 2000, "all");
     }
 }
