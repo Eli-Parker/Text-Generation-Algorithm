@@ -74,14 +74,9 @@ public class DirectedGraph {
             adjList.put(source, edges);
         }
         //increase the total number of edges
-        if(totalEdges.containsKey(source))
-        {
-            totalEdges.put(source, totalEdges.get(source) + 1);
-        }
-        else
-        {
-            totalEdges.put(source, 1);
-        }
+        totalEdges.put(source, totalEdges.containsKey(source) ?  totalEdges.get(source) + 1 : 1);
+
+
     }
 
 

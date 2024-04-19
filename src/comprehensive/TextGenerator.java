@@ -35,16 +35,15 @@ public class TextGenerator
      */
     public static void main(String[] args) throws FileNotFoundException, IllegalArgumentException
     {
-        String[] arg = {"src/warAndPeace.txt", "the", "20", "all"};
         //take the file path argument and pass into generative model
         GenerativeModel model;
         //check for valid filepath
-        model = new GenerativeModel(arg[0]);
+        model = new GenerativeModel(args[0]);
 
         //check to see that args[2] is a valid integer
         try
         {
-            Integer.parseInt(arg[2]);
+            Integer.parseInt(args[2]);
         }
         catch(NumberFormatException e)
         {
@@ -52,15 +51,15 @@ public class TextGenerator
         }
 
         //switch on the number of command line arguments
-        switch(arg.length)
+        switch(args.length)
         {
             case 3:
                 //return k most probable words for the given word
-                model.generateText(arg[1], Integer.parseInt(arg[2]));
+                model.generateText(args[1], Integer.parseInt(args[2]));
                 break;
             case 4:
                 //return k predicted words for the given seed word
-                model.generateText(arg[1], Integer.parseInt(arg[2]), arg[3]);
+                model.generateText(args[1], Integer.parseInt(args[2]), args[3]);
                 break;
             default:
                 //incorrect number of command line arguments, throw exception
