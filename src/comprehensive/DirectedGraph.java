@@ -40,46 +40,30 @@ public class DirectedGraph {
      */
     public void addConnection(String source, String destination)
     {
-        //Checks to see if source is there
-        if(adjList.containsKey(source))
-        {
-            //gets the edge lists for that source
-            ArrayList<Edge> edges = adjList.get(source);
-            //PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
-            boolean found = false;
-            //iterates through edges to check for existing word pair. if the word pair exists, increase the occurrences
-            for (Edge value : edges) {
-                if (value.getDestination().equals(destination)) {
-                    //since the priorityQueue order must be maintained, we remove the edge
-                    //and put it back after it's been edited
-                    //priorityEdges.remove(value);
-                    value.increaseOccurrences();
-                    //priorityEdges.add(value);
-                    found = true;
-                    break;
+        //get the list of edges for the source
+        ArrayList<Edge> edges = adjList.get(source);
+        //if the list is not null, iterate through it
+        if (edges != null) {
+            for (Edge edge : edges) {
+                //if the destination is already in the list, increase the occurrences and return
+                if (edge.getDestination().equals(destination)) {
+                    edge.increaseOccurrences();
+                    return;
                 }
             }
-            if(!found)
-            {
-                //if pair isn't found, create a new edge pointing to the destination word
-                var newEdge = new Edge(source, destination);
-                edges.add(newEdge);
-                //priorityEdges.add(newEdge);
-            }
+            //if the destination is not in the list, add it
+            edges.add(new Edge(source, destination));
         }
+        //if there is not a list for the source, create a new list and add the destination
         else
         {
-            //If source isn't found, add the source to the HashMap
-            ArrayList<Edge> edges = new ArrayList<>();
-            //add the destination to the source
-            if(!destination.isEmpty())
-            {
-                var edge = new Edge(source, destination); // add a new edge with the destination str & 1 occurrence
-                edges.add(edge);
+            edges = new ArrayList<>();
+            if (!destination.isEmpty()) {
+                edges.add(new Edge(source, destination));
             }
             adjList.put(source, edges);
         }
-        //increase the total number of edges
+        //increase the total number of edges for the source
         totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
     }
 
