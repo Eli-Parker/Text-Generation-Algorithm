@@ -12,7 +12,7 @@ public class GenerativeModelTest {
     void setUp()
     {
         try {
-            model = new GenerativeModel("GPT-0.1/abc.txt");
+            model = new GenerativeModel("abc.txt");
         } catch (FileNotFoundException e) {
             System.out.println("Oh no!");
         }
@@ -31,7 +31,7 @@ public class GenerativeModelTest {
 
     @org.junit.jupiter.api.Test
     void testTrickyFormatting() throws FileNotFoundException {
-        var file = "GPT-0.1/trickyFormatting.txt";
+        var file = "trickyFormatting.txt";
         var model2 = new GenerativeModel(file);
         System.out.println(model2.getGraph());
     }
@@ -48,7 +48,7 @@ public class GenerativeModelTest {
         //testing the abc file to see the proportions of the values it answers on
         var sample1 = "the-old-english-physiologus.txt";
         var beeMovie = "beeMovie.txt";
-        var model2 = new GenerativeModel("GPT-0.1/the-old-english-physiologus.txt");
+        var model2 = new GenerativeModel("src/warAndPeace.txt");
         model2.generateText( "the", 10, "all");
     }
 

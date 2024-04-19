@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!">
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph$Edge.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abc.txt" beforeDir="false" afterPath="$PROJECT_DIR$/abc.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,38 +44,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.DirectedGraphTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DirectedGraphTest.getMostProbableList.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.testBasicOutput.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.testGenerateText.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.testTrickyFormatting.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Experimental&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Jorden/Desktop/Final-Project-2420/GPT-0.1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.DirectedGraphTest.executor": "Run",
+    "JUnit.DirectedGraphTest.getMostProbableList.executor": "Run",
+    "JUnit.DirectedGraphTest.testRandomnessWeight.executor": "Run",
+    "JUnit.GenerativeModelTest.executor": "Run",
+    "JUnit.GenerativeModelTest.testBasicOutput.executor": "Run",
+    "JUnit.GenerativeModelTest.testGenerateText.executor": "Run",
+    "JUnit.GenerativeModelTest.testTrickyFormatting.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Experimental",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Jorden/Desktop/Final-Project-2420/GPT-0.1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -102,6 +99,22 @@
       <option name="PACKAGE_NAME" value="comprehensive" />
       <option name="MAIN_CLASS_NAME" value="comprehensive.DirectedGraphTest" />
       <option name="METHOD_NAME" value="getMostProbableList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DirectedGraphTest.testRandomnessWeight" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GPT -1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="comprehensive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="comprehensive" />
+      <option name="MAIN_CLASS_NAME" value="comprehensive.DirectedGraphTest" />
+      <option name="METHOD_NAME" value="testRandomnessWeight" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -157,9 +170,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DirectedGraphTest.testRandomnessWeight" />
+        <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
         <item itemvalue="JUnit.DirectedGraphTest.getMostProbableList" />
         <item itemvalue="JUnit.GenerativeModelTest.testTrickyFormatting" />
-        <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
         <item itemvalue="JUnit.GenerativeModelTest.testBasicOutput" />
       </list>
     </recent_temporary>
@@ -349,13 +363,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java</url>
-          <line>34</line>
+          <line>41</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -20,6 +20,12 @@ public class DirectedGraph {
 
     private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
     private HashMap<String, Integer> totalEdges;
+    Random rng = new Random();
+    Boolean graphUpdated = false;
+    ArrayList<Edge> edges = null;
+    int n = 0; // get the number of edges
+    double[] probability = new double[0];
+    int[] alias = new int[0];
     /**
      * Creates a new DirectedGraph object.
      */
@@ -75,6 +81,7 @@ public class DirectedGraph {
             }
             adjList.put(source, edges);
         }
+        graphUpdated = true;
         //increase the total number of edges
         totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
     }
@@ -102,22 +109,67 @@ public class DirectedGraph {
      */
     public String getRandom(String source)
     {
-        if(adjList.containsKey(source))
-        {
-            double[] prefixSum = new double[adjList.get(source).size() + 1];
-            for(int i = 0; i < adjList.get(source).size(); i++)
-            {
-                prefixSum[i + 1] = prefixSum[i] + adjList.get(source).get(i).getWeight();
+        if (adjList.containsKey(source) && !adjList.get(source).isEmpty()) {
+
+            if (graphUpdated) {
+                //get the list of edges for the source
+                edges = adjList.get(source);
+                n = edges.size();
+
+                //instantiate arrays for probability and alias, we are using the Vose Alias Method
+                probability = new double[n];
+                alias = new int[n];
+
+                //normalize the probability of each edge to be the number of occurrences of the edge * the number of edges
+                double[] normalizedProbability = new double[n];
+                for (int i = 0; i < n; i++) {
+                    normalizedProbability[i] = (double) edges.get(i).getWeight() * n;
+                }
+
+                //initialize the underfull and overfull arrays
+                Deque<Integer> underfull = new ArrayDeque<>(); // an ArrayQueue for normalized probabilities less than 1
+                Deque<Integer> overfull = new ArrayDeque<>(); // an ArrayQueue for normalized probabilities greater than 1
+
+                //add the index of the edge to the underfull or overfull array
+                for (int i = 0; i < n; i++) {
+                    if (normalizedProbability[i] < 1.0)
+                        underfull.add(i);
+                    else
+                        overfull.add(i);
+                }
+
+                //while there are still underfull and overfull edges, set the probability and alias
+                while (!underfull.isEmpty() && !overfull.isEmpty()) {
+                    //get the index of the small and large edges
+                    int smallIndex = underfull.remove();
+                    int largeIndex = overfull.remove();
+                    //set the probability and alias
+                    probability[smallIndex] = normalizedProbability[smallIndex];
+                    alias[smallIndex] = largeIndex;
+                    //update the normalized probability of the large edge
+                    normalizedProbability[largeIndex] = normalizedProbability[largeIndex] - (1.0 - normalizedProbability[smallIndex]);
+                    //add the large edge to the underfull or overfull array
+                    if (normalizedProbability[largeIndex] < 1.0)
+                        underfull.add(largeIndex);
+                    else
+                        overfull.add(largeIndex);
+                }
+
+                //while there are still underfull or overfull edges, set the probability to 1
+                while (!underfull.isEmpty())
+                    probability[underfull.remove()] = 1.0;
+                while (!overfull.isEmpty())
+                    probability[overfull.remove()] = 1.0;
+
+                graphUpdated = false;
             }
-            Random rng = new Random();
-            int resultIndex = Arrays.binarySearch(prefixSum, rng.nextDouble());
-            if(resultIndex < 0)
-            {
-                resultIndex = (-resultIndex) - 2;
-            }
-            else
-                resultIndex--;
-            return adjList.get(source).get(resultIndex).getDestination();
+
+            //get a random integer between 0 and n
+            int column = rng.nextInt(n);
+            //flips a 'biased coin' to determine which edge to return by comparing the probability to a random double
+            boolean coinToss = rng.nextDouble() < probability[column];
+            //if the coin toss is true, return the edge, otherwise return the alias
+            return coinToss ? edges.get(column).getDestination() : edges.get(alias[column]).getDestination();
         }
         return "";
     }
@@ -269,6 +321,14 @@ public class DirectedGraph {
         public void increaseOccurrences()
         {
             occurrences++;
+        }
+
+        /**
+         * Returns the amount of occurrences of the edge object.
+         */
+
+        public int getOccurrences() {
+            return occurrences;
         }
 
         /**
