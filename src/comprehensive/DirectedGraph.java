@@ -18,15 +18,15 @@ import java.util.*;
  */
 public class DirectedGraph {
 
-    //private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
-    private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for accessing the maximum value & the sorted list
+    private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
+    //private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for accessing the maximum value & the sorted list
 
     /**
      * Creates a new DirectedGraph object.
      */
     public DirectedGraph() {
-        //this.adjList = new HashMap<>();
-        this.priorityAdjList = new HashMap<>();
+        this.adjList = new HashMap<>();
+        //this.priorityAdjList = new HashMap<>();
     }
 
     /**
@@ -38,20 +38,20 @@ public class DirectedGraph {
     public void addConnection(String source, String destination)
     {
         //Checks to see if source is there
-        if(priorityAdjList.containsKey(source))
+        if(adjList.containsKey(source))
         {
             //gets the edge lists for that source
-            //ArrayList<Edge> edges = adjList.get(source);
-            PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
+            ArrayList<Edge> edges = adjList.get(source);
+            //PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
             //iterates through edges to check for existing word pair. if the word pair exists, increase the occurrences
-            for (Edge value : priorityEdges) {
+            for (Edge value : edges) {
                 if (value.getDestination().equals(destination)) {
                     //since the priorityQueue order must be maintained, we remove the edge
                     //and put it back after it's been edited
-                    priorityEdges.remove(value);
+                    //priorityEdges.remove(value);
                     value.increaseOccurrences();
-                    priorityEdges.add(value);
+                    //priorityEdges.add(value);
                     found = true;
                     break;
                 }
@@ -59,25 +59,25 @@ public class DirectedGraph {
             if(!found)
             {
                 //if pair isn't found, create a new edge pointing to the destination word
-                var newEdge = new Edge(destination,priorityEdges);
-                //edges.add(newEdge);
-                priorityEdges.add(newEdge);
+                var newEdge = new Edge(destination,edges);
+                edges.add(newEdge);
+                //priorityEdges.add(newEdge);
             }
         }
         else
         {
             //If source isn't found, add the source to the HashMaps
-            //ArrayList<Edge> edges = new ArrayList<>();
-            PriorityQueue<Edge> priorityEdges = new PriorityQueue<>();
+            ArrayList<Edge> edges = new ArrayList<>();
+            //PriorityQueue<Edge> priorityEdges = new PriorityQueue<>();
             //add the destination to the source
             if(!destination.isEmpty())
             {
-                var edge = new Edge(destination, priorityEdges); // add a new edge with the destination str & 1 occurrence
-                //edges.add(edge);
-                priorityEdges.add(edge);
+                var edge = new Edge(destination, edges); // add a new edge with the destination str & 1 occurrence
+                edges.add(edge);
+                //priorityEdges.add(edge);
             }
-            //adjList.put(source, edges);
-            priorityAdjList.put(source, priorityEdges);
+            adjList.put(source, edges);
+            //priorityAdjList.put(source, priorityEdges);
         }
     }
 
@@ -88,10 +88,10 @@ public class DirectedGraph {
      */
     public String getMax(String source)
     {
-        if(priorityAdjList.containsKey(source) && !priorityAdjList.get(source).isEmpty())
+        if(adjList.containsKey(source) && !adjList.get(source).isEmpty())
         {
             //get the first element in the priority queue, return it
-            Edge edge = priorityAdjList.get(source).peek();
+            Edge edge = Collections.min(adjList.get(source));
             return (edge != null) ? edge.getDestination() : "";
         }
         return "";
@@ -104,22 +104,24 @@ public class DirectedGraph {
      */
     public String getRandom(String source)
     {
-        if(priorityAdjList.containsKey(source) && !priorityAdjList.get(source).isEmpty())
+        if(adjList.containsKey(source) && !adjList.get(source).isEmpty())
         {
             //make a random number between 0 and the edge list size which skews toward the beginning of the list
             Random rng = new Random();
             double skew = 2; // TODO for some reason the autograder 
-            int randResult = (int) ((Math.pow(rng.nextDouble(), skew)) * priorityAdjList.get(source).size());
-            //copy the priorityQueue so we don't compromise the original
-            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
-
-            //pull out the random number of elements
-            for(int i=0;i < randResult;i++)
-            {
-                edgeListCopy.poll();
-            }
-            //return the destination of the edge
-            return (edgeListCopy.peek() != null) ? edgeListCopy.peek().getDestination() : priorityAdjList.get(source).peek().getDestination();
+            int randResult = (int) ((Math.pow(rng.nextDouble(), skew)) * adjList.get(source).size());
+            Collections.sort(adjList.get(source));
+            return adjList.get(source).get(randResult).getDestination();
+//          //copy the priorityQueue so we don't compromise the original
+//            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
+//
+//            //pull out the random number of elements
+//            for(int i=0;i < randResult;i++)
+//            {
+//                edgeListCopy.poll();
+//            }
+//            //return the destination of the edge
+//            return (edgeListCopy.peek() != null) ? edgeListCopy.peek().getDestination() : priorityAdjList.get(source).peek().getDestination();
         }
         return "";
     }
@@ -134,22 +136,21 @@ public class DirectedGraph {
     public String getMostProbableList(String source, int K)
     {
         StringBuilder result = new StringBuilder();
-        if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
-            //copy the priorityQueue so we don't compromise the original
-            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
+        if(adjList.containsKey(source)&& !adjList.get(source).isEmpty()){
+            var pointer = adjList.get(source); // get the list of edges
+            Collections.sort(pointer);
 
-
+            int i;
             //iterate until we go through entire list or get to K
-            for(int i=0;i < priorityAdjList.get(source).size() - 1 && i < K - 1;i++)
+            for(i=0;i < pointer.size() - 1 && i < K - 1;i++)
             {
                 //append the destination of the edge to the result
-                if(edgeListCopy.peek() != null)
-                    result.append(edgeListCopy.poll().getDestination()).append(" ");
+                result.append(pointer.get(i).getDestination()).append(" ");
 
             }
             //add the last element without whitespace
-            if(edgeListCopy.peek() != null)
-                result.append(edgeListCopy.poll().getDestination());
+            if(pointer.get(i) != null)
+                result.append(pointer.get(i).getDestination());
             return result.toString();
         }
         return ""; //return an empty String if there are no connections
@@ -168,17 +169,16 @@ public class DirectedGraph {
      */
     public Double[] getMostProbableListWeights(String source, int K)
     {
-        if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
-            //copy the priorityQueue so we don't compromise the original
-            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
+        if(adjList.containsKey(source)&& !adjList.get(source).isEmpty()){
+            var pointer = adjList.get(source); // get the list of edges
+            Collections.sort(pointer);
 
-            Double[] list = new Double[priorityAdjList.get(source).size()];//return value
+            Double[] list = new Double[adjList.get(source).size()];//return value
 
             //iterate until we go through entire list or get to K
-            for(int i=0;i < edgeListCopy.size() && i < K;i++)
+            for(int i=0;i < adjList.size() && i < K;i++)
             {
-                if(edgeListCopy.peek() != null)
-                    list[i] = edgeListCopy.poll().getWeight();
+                list[i] = pointer.get(i).getWeight();
             }
             return list;
         }
@@ -191,7 +191,7 @@ public class DirectedGraph {
      */
     public int size()
     {
-        return priorityAdjList.size();
+        return adjList.size();
     }
 
     /**
@@ -202,9 +202,9 @@ public class DirectedGraph {
      */
     public String getEdges(String source)
     {
-        if(priorityAdjList.containsKey(source))
+        if(adjList.containsKey(source))
         {
-            return this.priorityAdjList.get(source).toString();
+            return this.adjList.get(source).toString();
         }
         return "NOTHING FOUND";
     }
@@ -214,7 +214,7 @@ public class DirectedGraph {
      * @return an array of strings representing the vertices in the graph
      */
     public String[] getVertexes(){
-        return this.priorityAdjList.keySet().toArray(new String[0]);
+        return this.adjList.keySet().toArray(new String[0]);
     }
 
 
@@ -233,13 +233,13 @@ public class DirectedGraph {
 
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
-        private final PriorityQueue<Edge> parentList; // saves a pointer to the parent list for weight calculation
+        private final ArrayList<Edge> parentList; // saves a pointer to the parent list for weight calculation
 
         /**
          * Creates a new Edge object with 1 occurrence
          * @param destination the destination node
          */
-        public Edge(String destination, PriorityQueue<Edge> parentList)
+        public Edge(String destination, ArrayList<Edge> parentList)
         {
             if(destination == null || parentList == null)
             {
