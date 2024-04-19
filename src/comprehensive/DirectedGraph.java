@@ -1,6 +1,8 @@
 package comprehensive;
 
+
 import java.util.*;
+
 
 /**
  *  Represents a directed graph of word pairs with the ability to both grab
@@ -18,14 +20,9 @@ import java.util.*;
  */
 public class DirectedGraph {
 
+
     private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
     private HashMap<String, Integer> totalEdges;
-    Random rng = new Random();
-    Boolean graphUpdated = false;
-    ArrayList<Edge> edges = null;
-    int n = 0; // get the number of edges
-    double[] probability = new double[0];
-    int[] alias = new int[0];
     /**
      * Creates a new DirectedGraph object.
      */
@@ -33,6 +30,7 @@ public class DirectedGraph {
         this.adjList = new HashMap<>();
         this.totalEdges = new HashMap<>();
     }
+
 
     /**
      * Adds a connection to the graph.
@@ -81,10 +79,10 @@ public class DirectedGraph {
             }
             adjList.put(source, edges);
         }
-        graphUpdated = true;
         //increase the total number of edges
         totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
     }
+
 
     /**
      * Gets the connection to the given node with the highest weight, or the most "probability".
@@ -102,6 +100,7 @@ public class DirectedGraph {
         return "";
     }
 
+
     /**
      * Gets a random connection to the source node.
      * @param source the word to get a random value from
@@ -109,70 +108,27 @@ public class DirectedGraph {
      */
     public String getRandom(String source)
     {
-        if (adjList.containsKey(source) && !adjList.get(source).isEmpty()) {
-
-            if (graphUpdated) {
-                //get the list of edges for the source
-                edges = adjList.get(source);
-                n = edges.size();
-
-                //instantiate arrays for probability and alias, we are using the Vose Alias Method
-                probability = new double[n];
-                alias = new int[n];
-
-                //normalize the probability of each edge to be the number of occurrences of the edge * the number of edges
-                double[] normalizedProbability = new double[n];
-                for (int i = 0; i < n; i++) {
-                    normalizedProbability[i] = (double) edges.get(i).getWeight() * n;
-                }
-
-                //initialize the underfull and overfull arrays
-                Deque<Integer> underfull = new ArrayDeque<>(); // an ArrayQueue for normalized probabilities less than 1
-                Deque<Integer> overfull = new ArrayDeque<>(); // an ArrayQueue for normalized probabilities greater than 1
-
-                //add the index of the edge to the underfull or overfull array
-                for (int i = 0; i < n; i++) {
-                    if (normalizedProbability[i] < 1.0)
-                        underfull.add(i);
-                    else
-                        overfull.add(i);
-                }
-
-                //while there are still underfull and overfull edges, set the probability and alias
-                while (!underfull.isEmpty() && !overfull.isEmpty()) {
-                    //get the index of the small and large edges
-                    int smallIndex = underfull.remove();
-                    int largeIndex = overfull.remove();
-                    //set the probability and alias
-                    probability[smallIndex] = normalizedProbability[smallIndex];
-                    alias[smallIndex] = largeIndex;
-                    //update the normalized probability of the large edge
-                    normalizedProbability[largeIndex] = normalizedProbability[largeIndex] - (1.0 - normalizedProbability[smallIndex]);
-                    //add the large edge to the underfull or overfull array
-                    if (normalizedProbability[largeIndex] < 1.0)
-                        underfull.add(largeIndex);
-                    else
-                        overfull.add(largeIndex);
-                }
-
-                //while there are still underfull or overfull edges, set the probability to 1
-                while (!underfull.isEmpty())
-                    probability[underfull.remove()] = 1.0;
-                while (!overfull.isEmpty())
-                    probability[overfull.remove()] = 1.0;
-
-                graphUpdated = false;
+        if(adjList.containsKey(source))
+        {
+            var sourceEdges = adjList.get(source); // get the list of edges
+            double[] prefixSum = new double[sourceEdges.size() + 1];
+            for(int i = 0; i < sourceEdges.size(); i++)
+            {
+                prefixSum[i + 1] = prefixSum[i] + sourceEdges.get(i).getWeight();
             }
-
-            //get a random integer between 0 and n
-            int column = rng.nextInt(n);
-            //flips a 'biased coin' to determine which edge to return by comparing the probability to a random double
-            boolean coinToss = rng.nextDouble() < probability[column];
-            //if the coin toss is true, return the edge, otherwise return the alias
-            return coinToss ? edges.get(column).getDestination() : edges.get(alias[column]).getDestination();
+            Random rng = new Random();
+            int resultIndex = Arrays.binarySearch(prefixSum, rng.nextDouble());
+            if(resultIndex < 0)
+            {
+                resultIndex = (-resultIndex) - 2;
+            }
+            else
+                resultIndex--;
+            return sourceEdges.get(resultIndex).getDestination();
         }
         return "";
     }
+
 
     /**
      * Gets a list of K most probable words that come after the source word,
@@ -188,12 +144,14 @@ public class DirectedGraph {
             var pointer = adjList.get(source); // get the list of edges
             Collections.sort(pointer);
 
+
             int i;
             //iterate until we go through entire list or get to K
             for(i=0;i < pointer.size() - 1 && i < K - 1;i++)
             {
                 //append the destination of the edge to the result
                 result.append(pointer.get(i).getDestination()).append(" ");
+
 
             }
             //add the last element without whitespace
@@ -204,9 +162,11 @@ public class DirectedGraph {
         return ""; //return an empty String if there are no connections
     }
 
-    /*
-       Testing methods for DirectedGraph below
-     */
+
+   /*
+      Testing methods for DirectedGraph below
+    */
+
 
     /**
      * Gets the list of K most probable weights that come after the source word. TODO delete in final submission
@@ -221,7 +181,9 @@ public class DirectedGraph {
             var pointer = adjList.get(source); // get the list of edges
             Collections.sort(pointer);
 
+
             Double[] list = new Double[adjList.get(source).size()];//return value
+
 
             //iterate until we go through entire list or get to K
             for(int i=0;i < adjList.size() && i < K;i++)
@@ -233,6 +195,7 @@ public class DirectedGraph {
         return new Double[0]; //return an empty array if there are no connections
     }
 
+
     /**
      * Returns the number of vertices in the graph.
      * @return an integer representing the number of vertices in the graph
@@ -241,6 +204,7 @@ public class DirectedGraph {
     {
         return adjList.size();
     }
+
 
     /**
      * Returns the edges for a given vertex in the graph,
@@ -257,6 +221,7 @@ public class DirectedGraph {
         return "NOTHING FOUND";
     }
 
+
     /**
      * Returns all vertices in the graph object.
      * @return an array of strings representing the vertices in the graph
@@ -264,6 +229,9 @@ public class DirectedGraph {
     public String[] getVertexes(){
         return this.adjList.keySet().toArray(new String[0]);
     }
+
+
+
 
 
 
@@ -279,9 +247,11 @@ public class DirectedGraph {
      */
     private class Edge implements Comparable<Edge> {
 
+
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
         private final String source; // saves a pointer to the parent list for weight calculation
+
 
         /**
          * Creates a new Edge object with 1 occurrence
@@ -298,6 +268,7 @@ public class DirectedGraph {
             this.occurrences = 1;
         }
 
+
         /**
          * Gets the destination of the edge object.
          * @return a string which is the destination of the edge
@@ -306,6 +277,7 @@ public class DirectedGraph {
         {
             return this.destination;
         }
+
 
         /**
          * Gets the number of times we see the edge object.
@@ -323,13 +295,6 @@ public class DirectedGraph {
             occurrences++;
         }
 
-        /**
-         * Returns the amount of occurrences of the edge object.
-         */
-
-        public int getOccurrences() {
-            return occurrences;
-        }
 
         /**
          * Compares the edge object to another edge object by weight, then alphanumerically.
@@ -344,3 +309,4 @@ public class DirectedGraph {
         }
     }
 }
+

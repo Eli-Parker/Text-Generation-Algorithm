@@ -1,11 +1,10 @@
 package comprehensive;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.regex.Pattern;
 
 
 /**
@@ -19,6 +18,9 @@ public class GenerativeModel
     //The adjacency list representation of the graph
     private DirectedGraph graph;
 
+    //to use to remove bad formatting from words
+    private static final Pattern regexPattern = Pattern.compile("[^\\w\\s]");
+
     /**
      * Creates a new GenerativeModel object, initializes the graph
      * and fills it with the words from the given file.
@@ -27,7 +29,11 @@ public class GenerativeModel
     {
         //initialize the graph by calling a helper method
         graph = new DirectedGraph();
-        createGraph(filePath);
+        try {
+            createGraph(filePath);
+        } catch (IOException e) {
+            throw new FileNotFoundException("File not found");
+        }
     }
 
 
@@ -81,14 +87,15 @@ public class GenerativeModel
      * @param filePath the file path to the file to parse
      * @throws FileNotFoundException if the file path is invalid
      */
-    private void createGraph(String filePath) throws FileNotFoundException {
+    private void createGraph(String filePath) throws IOException {
         File file = new File(filePath);
-        Scanner scanner = new Scanner(file);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         //for each line in the file, separate the words and add them to the graph as connections
         String previousWord = "";
-        while(scanner.hasNextLine())
+        String line;
+        while ((line = reader.readLine()) != null)
         {
-            String[] words = scanner.nextLine().trim().replaceAll(" +", " ").split(" ");
+            String[] words = line.trim().replaceAll(" +", " ").split(" ");
             for(String word : words)
             {
                 var formattedWord = formatWord(word); // format the word
@@ -103,6 +110,7 @@ public class GenerativeModel
                 }
             }
         }
+        reader.close();
     }
 
 
@@ -179,19 +187,8 @@ public class GenerativeModel
      */
     public static String formatWord(String word)
     {
-        //initialize a string builder to hold the formatted word
-        StringBuilder result = new StringBuilder(word.length());
-        //convert the word to a character array and loop through each character
-        for (char character : word.toCharArray()) {
-            //if the character is a punctuation character, break the loop (no characters after an apostrophe are valid)
-            if (Character.toString(character).matches("[^\\w\\s]")){
-                break;
-            }
-            //if the character is valid (abc,0-9,_), add it to the result. ignore any other characters
-            result.append(character);
-        }
-
-        return result.toString().toLowerCase();
+        //return the first word in the string, ignoring any punctuation
+        return (!regexPattern.matcher(word).replaceAll("").isEmpty()) ? word.split("[^\\w\\s]")[0].toLowerCase() : "";
     }
 
 
