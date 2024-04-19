@@ -12,7 +12,7 @@ public class GenerativeModelTest {
     void setUp()
     {
         try {
-            model = new GenerativeModel("abc.txt");
+            model = new GenerativeModel("GPT-0.1/abc.txt");
         } catch (FileNotFoundException e) {
             System.out.println("Oh no!");
         }
@@ -31,7 +31,7 @@ public class GenerativeModelTest {
 
     @org.junit.jupiter.api.Test
     void testTrickyFormatting() throws FileNotFoundException {
-        var file = "trickyFormatting.txt";
+        var file = "GPT-0.1/trickyFormatting.txt";
         var model2 = new GenerativeModel(file);
         System.out.println(model2.getGraph());
     }
@@ -39,7 +39,7 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.Test
     void testBasicOutput()
     {
-        assertEquals("[a - z b c d e f g h i j k l m n o p q r s t u v w x y, b - a z, c - a z, d - a, e - a, f - a, g - a, h - a, i - a, j - a, k - a, l - a, m - a, n - a, o - a, p - a, q - a, r - a, s - a, t - a, u - a, v - a, w - a, x - a, y - a, z - c a b z]", model.getGraph());
+        assertEquals("[wow - a, a - wow z b c d e f g h i j k l m n o p q r s t u v w x y, b - a z, c - a z, d - a, e - a, f - a, g - a, h - a, i - a, j - a, k - a, l - a, m - a, n - a, o - a, p - a, q - a, r - a, s - a, t - a, u - a, v - a, w - a, x - a, y - a, z - c a b z]", model.getGraph());
     }
 
     @org.junit.jupiter.api.Test
@@ -48,7 +48,8 @@ public class GenerativeModelTest {
         //testing the abc file to see the proportions of the values it answers on
         var sample1 = "the-old-english-physiologus.txt";
         var beeMovie = "beeMovie.txt";
-        var model2 = new GenerativeModel("abc.txt");
-        model2.generateText( "a", 10, "all");
+        var model2 = new GenerativeModel("GPT-0.1/the-old-english-physiologus.txt");
+        model2.generateText( "the", 10, "all");
     }
+
 }

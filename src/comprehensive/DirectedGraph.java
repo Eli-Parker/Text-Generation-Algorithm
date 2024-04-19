@@ -108,10 +108,18 @@ public class DirectedGraph {
         {
             //make a random number between 0 and the edge list size which skews toward the beginning of the list
             Random rng = new Random();
-            double skew = 2; // TODO for some reason the autograder 
-            int randResult = (int) ((Math.pow(rng.nextDouble(), skew)) * adjList.get(source).size());
-            Collections.sort(adjList.get(source));
-            return adjList.get(source).get(randResult).getDestination();
+            ArrayList<Edge> tempList = new ArrayList<>();
+            //get a random edge from the list with a bias towards edges with higher occurrences
+            for(Edge edge : adjList.get(source))
+            {
+                //for each edge in the list, add it to the tempList the number of times it occurs
+                for (int i = 0; i < edge.occurrences; i++)
+                {
+                    tempList.add(edge);
+                }
+            }
+            //return a random element from the tempList
+            return tempList.get(rng.nextInt(tempList.size())).getDestination();
 //          //copy the priorityQueue so we don't compromise the original
 //            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
 //
