@@ -20,7 +20,7 @@ public class TimerTemplateExtention extends TimerTemplate {
 
     private static final int starting  = 1;
     private static final int increment = 1;
-    private static final int ending = 2;
+    private static final int ending = 1;
 
 
     public static void main(String[] args){
@@ -36,7 +36,7 @@ public class TimerTemplateExtention extends TimerTemplate {
             problemSizes[i] = ns.get(i);
         }
 
-        var timer = new TimerTemplateExtention(problemSizes, 10);
+        var timer = new TimerTemplateExtention(problemSizes, 20);
         var results = timer.run();
         System.out.println("n, time");
         for(var result: results){

@@ -4,6 +4,7 @@ package comprehensive;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 
@@ -85,7 +86,7 @@ public class GenerativeModel
     /**
      * Fills the graph with the words from the given file
      * @param filePath the file path to the file to parse
-     * @throws FileNotFoundException if the file path is invalid
+     * @throws IOException if the file path is invalid
      */
     private void createGraph(String filePath) throws IOException {
         File file = new File(filePath);
@@ -93,20 +94,34 @@ public class GenerativeModel
         //for each line in the file, separate the words and add them to the graph as connections
         String previousWord = "";
         String line;
-        while ((line = reader.readLine()) != null)
+        //store already formatted words to avoid extra calls to formatWord
+        HashMap<String, String> formattedWords = new HashMap<>();
+        while((line = reader.readLine()) != null)
         {
-            String[] words = line.trim().replaceAll(" +", " ").split(" ");
+            String[] words = line.replaceAll(" +", " ").split(" ");
             for(int i = 0; i < words.length; i++)
             {
-                var formattedWord = formatWord(words[i]); // format the word
-                if(!previousWord.isEmpty() && !formattedWord.isEmpty())
+                //check if the word is already formatted
+                String formattedWord = formattedWords.get(words[i]);
+                if (formattedWord == null)
                 {
-                    //if the word has a previous word, add a connection from the previous word to the current word
-                    this.graph.addConnection(previousWord, formattedWord);
+                    //if not, format the word & add to the map
+                    formattedWord = formatWord(words[i]);
+                    formattedWords.put(words[i], formattedWord);
                 }
-                //if the formatted word is not empty, set the previous word to the current word
-                previousWord = formattedWord;
+
+                if(!formattedWord.isEmpty())
+                {
+                    if(!previousWord.isEmpty()) {
+                        //if the word has a previous word, add a connection from the previous word to the current word
+                        this.graph.addConnection(previousWord, formattedWord);
+                    }
+
+                    //if the formatted word is not empty, set the previous word to the current word
+                    previousWord = formattedWord;
+                }
             }
+
         }
         reader.close();
     }

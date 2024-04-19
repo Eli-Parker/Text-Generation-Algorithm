@@ -20,7 +20,6 @@ import java.util.*;
  */
 public class DirectedGraph {
 
-
     private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
     private HashMap<String, Integer> totalEdges;
     /**
@@ -45,16 +44,11 @@ public class DirectedGraph {
         {
             //gets the edge lists for that source
             ArrayList<Edge> edges = adjList.get(source);
-            //PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
             //iterates through edges to check for existing word pair. if the word pair exists, increase the occurrences
-            for (int i = 0; i < edges.size(); i++) {
+            for (int i = 0; i < edges.size(); i++){
                 if (edges.get(i).getDestination().equals(destination)) {
-                    //since the priorityQueue order must be maintained, we remove the edge
-                    //and put it back after it's been edited
-                    //priorityEdges.remove(value);
-                    edges.get(i).increaseOccurrences();
-                    //priorityEdges.add(value);
+                    edges.get(i).occurrences++;
                     found = true;
                     break;
                 }
@@ -80,7 +74,14 @@ public class DirectedGraph {
             adjList.put(source, edges);
         }
         //increase the total number of edges
-        totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
+        if(totalEdges.containsKey(source))
+        {
+            totalEdges.put(source, totalEdges.get(source) + 1);
+        }
+        else
+        {
+            totalEdges.put(source, 1);
+        }
     }
 
 
