@@ -19,14 +19,13 @@ import java.util.*;
 public class DirectedGraph {
 
     private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
-    //private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for accessing the maximum value & the sorted list
-
+    private HashMap<String, Integer> totalEdges;
     /**
      * Creates a new DirectedGraph object.
      */
     public DirectedGraph() {
         this.adjList = new HashMap<>();
-        //this.priorityAdjList = new HashMap<>();
+        this.totalEdges = new HashMap<>();
     }
 
     /**
@@ -59,26 +58,25 @@ public class DirectedGraph {
             if(!found)
             {
                 //if pair isn't found, create a new edge pointing to the destination word
-                var newEdge = new Edge(destination,edges);
+                var newEdge = new Edge(source, destination);
                 edges.add(newEdge);
                 //priorityEdges.add(newEdge);
             }
         }
         else
         {
-            //If source isn't found, add the source to the HashMaps
+            //If source isn't found, add the source to the HashMap
             ArrayList<Edge> edges = new ArrayList<>();
-            //PriorityQueue<Edge> priorityEdges = new PriorityQueue<>();
             //add the destination to the source
             if(!destination.isEmpty())
             {
-                var edge = new Edge(destination, edges); // add a new edge with the destination str & 1 occurrence
+                var edge = new Edge(source, destination); // add a new edge with the destination str & 1 occurrence
                 edges.add(edge);
-                //priorityEdges.add(edge);
             }
             adjList.put(source, edges);
-            //priorityAdjList.put(source, priorityEdges);
         }
+        //increase the total number of edges
+        totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
     }
 
     /**
@@ -104,32 +102,22 @@ public class DirectedGraph {
      */
     public String getRandom(String source)
     {
-        if(adjList.containsKey(source) && !adjList.get(source).isEmpty())
+        if(adjList.containsKey(source))
         {
-            //make a random number between 0 and the edge list size which skews toward the beginning of the list
-            Random rng = new Random();
-            ArrayList<Edge> tempList = new ArrayList<>();
-            //get a random edge from the list with a bias towards edges with higher occurrences
-            for(Edge edge : adjList.get(source))
+            double[] prefixSum = new double[adjList.get(source).size() + 1];
+            for(int i = 0; i < adjList.get(source).size(); i++)
             {
-                //for each edge in the list, add it to the tempList the number of times it occurs
-                for (int i = 0; i < edge.occurrences; i++)
-                {
-                    tempList.add(edge);
-                }
+                prefixSum[i + 1] = prefixSum[i] + adjList.get(source).get(i).getWeight();
             }
-            //return a random element from the tempList
-            return tempList.get(rng.nextInt(tempList.size())).getDestination();
-//          //copy the priorityQueue so we don't compromise the original
-//            var edgeListCopy = new PriorityQueue<>(priorityAdjList.get(source));
-//
-//            //pull out the random number of elements
-//            for(int i=0;i < randResult;i++)
-//            {
-//                edgeListCopy.poll();
-//            }
-//            //return the destination of the edge
-//            return (edgeListCopy.peek() != null) ? edgeListCopy.peek().getDestination() : priorityAdjList.get(source).peek().getDestination();
+            Random rng = new Random();
+            int resultIndex = Arrays.binarySearch(prefixSum, rng.nextDouble());
+            if(resultIndex < 0)
+            {
+                resultIndex = (-resultIndex) - 2;
+            }
+            else
+                resultIndex--;
+            return adjList.get(source).get(resultIndex).getDestination();
         }
         return "";
     }
@@ -241,21 +229,21 @@ public class DirectedGraph {
 
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
-        private final ArrayList<Edge> parentList; // saves a pointer to the parent list for weight calculation
+        private final String source; // saves a pointer to the parent list for weight calculation
 
         /**
          * Creates a new Edge object with 1 occurrence
          * @param destination the destination node
          */
-        public Edge(String destination, ArrayList<Edge> parentList)
+        public Edge(String source, String destination)
         {
-            if(destination == null || parentList == null)
+            if(destination == null || source == null)
             {
-                throw new IllegalArgumentException("Destination and parentList cannot be null");
+                throw new IllegalArgumentException("Source and destination cannot be null");
             }
+            this.source = source;
             this.destination = destination;
             this.occurrences = 1;
-            this.parentList = parentList;
         }
 
         /**
@@ -273,7 +261,7 @@ public class DirectedGraph {
          */
         public double getWeight()
         {
-            return (double) occurrences / parentList.size();
+            return (double) occurrences / totalEdges.get(source);
         }
         /**
          * Increases the number of occurrences of the edge object by 1.
