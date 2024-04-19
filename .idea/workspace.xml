@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Simplified the addConnection method and optimized it for time efficiency">
+    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Rollback changes from last commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
@@ -49,7 +49,7 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.DirectedGraphTest.executor": "Run",
+    "JUnit.DirectedGraphTest.executor": "Profiler#1",
     "JUnit.DirectedGraphTest.getMostProbableList.executor": "Run",
     "JUnit.DirectedGraphTest.testRandomnessWeight.executor": "Run",
     "JUnit.GenerativeModelTest.executor": "Run",
@@ -345,7 +345,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713563418410</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Rollback changes from last commit">
+      <option name="closed" value="true" />
+      <created>1713564949927</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1713564949927</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,7 +382,8 @@
     <MESSAGE value="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!" />
     <MESSAGE value="Updated getRandom to use a Vose Alias method" />
     <MESSAGE value="Simplified the addConnection method and optimized it for time efficiency" />
-    <option name="LAST_COMMIT_MESSAGE" value="Simplified the addConnection method and optimized it for time efficiency" />
+    <MESSAGE value="Rollback changes from last commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rollback changes from last commit" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

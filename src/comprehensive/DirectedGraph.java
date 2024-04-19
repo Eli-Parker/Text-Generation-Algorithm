@@ -48,12 +48,12 @@ public class DirectedGraph {
             //PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
             //iterates through edges to check for existing word pair. if the word pair exists, increase the occurrences
-            for (Edge value : edges) {
-                if (value.getDestination().equals(destination)) {
+            for (int i = 0; i < edges.size(); i++) {
+                if (edges.get(i).getDestination().equals(destination)) {
                     //since the priorityQueue order must be maintained, we remove the edge
                     //and put it back after it's been edited
                     //priorityEdges.remove(value);
-                    value.increaseOccurrences();
+                    edges.get(i).increaseOccurrences();
                     //priorityEdges.add(value);
                     found = true;
                     break;
@@ -66,7 +66,6 @@ public class DirectedGraph {
                 edges.add(newEdge);
                 //priorityEdges.add(newEdge);
             }
-
         }
         else
         {
@@ -82,8 +81,6 @@ public class DirectedGraph {
         }
         //increase the total number of edges
         totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
-
-
     }
 
 

@@ -96,18 +96,16 @@ public class GenerativeModel
         while ((line = reader.readLine()) != null)
         {
             String[] words = line.trim().replaceAll(" +", " ").split(" ");
-            for(String word : words)
+            for(int i = 0; i < words.length; i++)
             {
-                var formattedWord = formatWord(word); // format the word
+                var formattedWord = formatWord(words[i]); // format the word
                 if(!previousWord.isEmpty() && !formattedWord.isEmpty())
                 {
                     //if the word has a previous word, add a connection from the previous word to the current word
                     this.graph.addConnection(previousWord, formattedWord);
                 }
                 //if the formatted word is not empty, set the previous word to the current word
-                if(!formattedWord.isEmpty()) {
-                    previousWord = formattedWord;
-                }
+                previousWord = formattedWord;
             }
         }
         reader.close();
@@ -187,8 +185,12 @@ public class GenerativeModel
      */
     public static String formatWord(String word)
     {
-        //return the first word in the string, ignoring any punctuation
-        return (!regexPattern.matcher(word).replaceAll("").isEmpty()) ? word.split("[^\\w\\s]")[0].toLowerCase() : "";
+        // convert the word to lower case, then remove any punctuation (except underscores) and any letters after them
+        String formattedWord = word.toLowerCase();
+        formattedWord = formattedWord.replaceAll("[\\p{Punct}&&[^_]].*$", "");
+
+        // return the formatted word, or an empty string if the word is not valid
+        return (!formattedWord.isEmpty()) ? formattedWord : "";
     }
 
 
@@ -208,25 +210,4 @@ public class GenerativeModel
         }
         return Arrays.toString(result);
     }
-
-
-    /**
-     * Formats an array of words TODO why do we have this?
-     * @param words the words to format
-     * @return an array of formatted words
-     */
-    public static String[] formatWords(String[] words)
-    {
-        ArrayList<String> result = new ArrayList<>();
-        for(String word : words)
-        {
-            var formattedWord = formatWord(word);
-            if(!formattedWord.isEmpty())
-            {
-                result.add(formattedWord);
-            }
-        }
-        return result.toArray(new String[0]);
-    }
-
 }
