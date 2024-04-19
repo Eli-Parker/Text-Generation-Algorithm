@@ -200,12 +200,8 @@ public class GenerativeModel
      */
     public static String formatWord(String word)
     {
-        // convert the word to lower case, then remove any punctuation (except underscores) and any letters after them
-        String formattedWord = word.toLowerCase();
-        formattedWord = formattedWord.replaceAll("[\\p{Punct}&&[^_]].*$", "");
-
-        // return the formatted word, or an empty string if the word is not valid
-        return (!formattedWord.isEmpty()) ? formattedWord : "";
+        var matcher = regexPattern.matcher(word);
+        return (matcher.find()) ? word.substring(0,matcher.start()).toLowerCase(): word.toLowerCase();
     }
 
 
