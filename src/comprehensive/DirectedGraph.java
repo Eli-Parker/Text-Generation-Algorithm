@@ -1,34 +1,40 @@
 package comprehensive;
 
+
 import java.util.*;
+
 
 /**
  *  Represents a directed graph of word pairs with the ability to both grab
  *  the maximum frequency connection and a random connection from any node in the graph.
- *  Both getMax() and getRandom() are O(1) operations,
- *  while getFullList() is O(k) where k is how many terms to get from k.
+ *  GetMax() has a big O of O(K) and getRandom() has a big O of O(K + log(K)), where K is the
+ *  size of the edge list for the given vertex.
  *  <p>
  *  The graph is represented using a HashMap of Strings mapped to ArrayLists of Edges,
- *  and a HashMap of Strings mapped to PriorityQueues of Edges.
+ *  where each Edge contains the destination word and the number of times we see the word pair.
+ *  Every edge has a weight which is defined as the frequency of the word pair / the number of edges,
+ *  and this weight is used to determine a more probable random word.
  *
  * @author Eli Parker & Jorden Dickerson
- * @version Apr 16, 2024
+ * @version Apr 22, 2024
  */
 public class DirectedGraph {
 
-    private HashMap<String,ArrayList<Edge>> adjList; // for random values
-    private HashMap<String,PriorityQueue<Edge>> priorityAdjList; // for the maximum value
+    private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
+    private HashMap<String, Integer> totalEdges;
 
     /**
      * Creates a new DirectedGraph object.
      */
     public DirectedGraph() {
         this.adjList = new HashMap<>();
-        this.priorityAdjList = new HashMap<>();
+        this.totalEdges = new HashMap<>();
     }
+
 
     /**
      * Adds a connection to the graph.
+     * If the connection already exists, it increases the occurrences.
      * @param source the source node
      * @param destination the destination node
      */
@@ -39,16 +45,11 @@ public class DirectedGraph {
         {
             //gets the edge lists for that source
             ArrayList<Edge> edges = adjList.get(source);
-            PriorityQueue<Edge> priorityEdges = priorityAdjList.get(source);
             boolean found = false;
             //iterates through edges to check for existing word pair. if the word pair exists, increase the occurrences
-            for (Edge value : edges) {
-                if (value.getDestination().equals(destination)) {
-                    //since the priorityQueue order must be maintained, we remove the edge
-                    //and put it back after it's been edited
-                    priorityEdges.remove(value);
-                    value.increaseOccurrences();
-                    priorityEdges.add(value);
+            for (int i = 0; i < edges.size(); i++){
+                if (edges.get(i).getDestination().equals(destination)) {
+                    edges.get(i).increaseOccurrences();
                     found = true;
                     break;
                 }
@@ -56,24 +57,23 @@ public class DirectedGraph {
             if(!found)
             {
                 //if pair isn't found, create a new edge pointing to the destination word
-                var newEdge = new Edge(destination,edges);
+                var newEdge = new Edge(source, destination);
                 edges.add(newEdge);
-                priorityEdges.add(newEdge);
             }
         }
         else
         {
-            //If source isn't found, add the source to the HashMaps
+            //If source isn't found, add the source to the HashMap
             ArrayList<Edge> edges = new ArrayList<>();
-            PriorityQueue<Edge> priorityEdges = new PriorityQueue<>(Comparator.comparing(Edge::getWeight).reversed());
-
-            var edge = new Edge(destination,edges); // add a new edge with the destination str & 1 occurrence
-            priorityEdges.add(edge);
+            //add the destination to the source
+            var edge = new Edge(source, destination); // add a new edge with the destination str & 1 occurrence
             edges.add(edge);
-            adjList.put(source,edges);
-            priorityAdjList.put(source,priorityEdges);
+            adjList.put(source, edges);
         }
+        //increase the total number of edges
+        totalEdges.put(source, totalEdges.getOrDefault(source, 0) + 1);
     }
+
 
     /**
      * Gets the connection to the given node with the highest weight, or the most "probability".
@@ -82,12 +82,15 @@ public class DirectedGraph {
      */
     public String getMax(String source)
     {
-        if(priorityAdjList.containsKey(source) && !priorityAdjList.get(source).isEmpty())
+        if(adjList.containsKey(source) && !adjList.get(source).isEmpty())
         {
-            return priorityAdjList.get(source).peek().getDestination();
+            //get the first element in the priority queue, return it
+            Edge edge = Collections.min(adjList.get(source));
+            return (edge != null) ? edge.getDestination() : "";
         }
         return "";
     }
+
 
     /**
      * Gets a random connection to the source node.
@@ -98,75 +101,107 @@ public class DirectedGraph {
     {
         if(adjList.containsKey(source))
         {
+            var sourceEdges = adjList.get(source); // get the list of edges
+            double[] prefixSum = new double[sourceEdges.size() + 1];
+            for(int i = 0; i < sourceEdges.size(); i++)
+            {
+                prefixSum[i + 1] = prefixSum[i] + sourceEdges.get(i).getWeight();
+            }
             Random rng = new Random();
-            return adjList.get(source).get(rng.nextInt(adjList.get(source).size())).getDestination();
+            int resultIndex = Arrays.binarySearch(prefixSum, rng.nextDouble());
+            if(resultIndex < 0)
+            {
+                resultIndex = (-resultIndex) - 2;
+            }
+            else
+                resultIndex--;
+            return sourceEdges.get(resultIndex).getDestination();
         }
         return "";
     }
 
+
     /**
-     * Gets the list of K most probable words that come after the source word.
+     * Gets a list of K most probable words that come after the source word,
      * in order from most probable to least probable.
      * @param source the word to get all the connections of
      * @param K the number of words to return. Note that if K is greater than the number of connections, it will return all connections
      * @return an ordered list of K words that come after the source word, or an empty list if there are no connections
      */
-    public String[] getMostProbableList(String source, int K)
+    public String getMostProbableList(String source, int K)
     {
-        if(priorityAdjList.containsKey(source)&& !priorityAdjList.get(source).isEmpty()){
-            //copy the priorityQueue so we don't compromise the original
-            var originalQueue = new PriorityQueue<>(priorityAdjList.get(source));
+        StringBuilder result = new StringBuilder();
+        if(adjList.containsKey(source)&& !adjList.get(source).isEmpty()){
+            var pointer = adjList.get(source); // get the list of edges
+            Collections.sort(pointer);
 
-            String[] list = new String[priorityAdjList.get(source).size()];//return value
 
+            int i;
             //iterate until we go through entire list or get to K
-            for(int i=0;i < priorityAdjList.size() && i < K;i++)
+            for(i=0;i < pointer.size() - 1 && i < K - 1;i++)
             {
-                list[i] = originalQueue.poll().getDestination();
+                //append the destination of the edge to the result
+                result.append(pointer.get(i).getDestination()).append(" ");
+
+
             }
-            return list;
+            //add the last element without whitespace
+            if(pointer.get(i) != null)
+                result.append(pointer.get(i).getDestination());
+            return result.toString();
         }
-        return new String[0]; //return an empty array if there are no connections
+        return ""; //return an empty String if there are no connections
     }
 
+
+
     /**
-     * Returns the number of vertices in the graph.
-     * @return an integer representing the number of vertices in the graph
+     * Returns all vertices in the graph object.
+     * @return an array of strings representing the vertices in the graph
      */
-    public int size()
-    {
-        return adjList.size();
+    public String[] getVertexes(){
+        return this.adjList.keySet().toArray(new String[0]);
     }
 
 
+
+
+
+
     /**
-     * A class to represent an edge in the graph, containing the value and the number of times we see the word pair.
+     * A class to represent an edge in the graph,
+     * containing the value of the destination vertex and the number of times we see the word pair.
      * <p>
-     * Note: The weight is defined as
-     * the frequency of the word pair / the number of edges.
-     * <p>
-     * EXAMPLE:
-     * if i have a word "hello" and in my text the words that come after hello are "world", "hi", and "jim",
-     * then "jim" would have a frequency of 1/3
+     * The weight is defined as the frequency of the word pair / the number of edges.
+     * (Ex: if a word "hello" has "world", "hi", and "jim" coming after it,
+     * then "jim" would have a weight of 1/3)
+     * Edge objects are compared by weight, then alphanumerically.
      * @author Eli Parker & Jorden Dickerson
      * @version Apr 16, 2024
      */
-    public class Edge {
+    private class Edge implements Comparable<Edge> {
+
 
         private final String destination; // the connection's destination
         private int occurrences; // number of times we see the word pair
-        private ArrayList<Edge> parentList; // saves the parent list for weight calculation
+        private final String source; // saves a pointer to the parent list for weight calculation
+
 
         /**
          * Creates a new Edge object with 1 occurrence
          * @param destination the destination node
          */
-        public Edge(String destination, ArrayList<Edge> parentList)
+        public Edge(String source, String destination)
         {
+            if(destination == null || source == null)
+            {
+                throw new IllegalArgumentException("Source and destination cannot be null");
+            }
+            this.source = source;
             this.destination = destination;
             this.occurrences = 1;
-            this.parentList = parentList;
         }
+
 
         /**
          * Gets the destination of the edge object.
@@ -177,13 +212,14 @@ public class DirectedGraph {
             return this.destination;
         }
 
+
         /**
          * Gets the number of times we see the edge object.
          * @return a double which is the occurrences of the edge
          */
         public double getWeight()
         {
-            return (double) occurrences / parentList.size();
+            return (double) occurrences / totalEdges.get(source);
         }
         /**
          * Increases the number of occurrences of the edge object by 1.
@@ -192,5 +228,19 @@ public class DirectedGraph {
         {
             occurrences++;
         }
+
+
+        /**
+         * Compares the edge object to another edge object by weight, then alphanumerically.
+         * @param edge the object to be compared.
+         * @return a negative integer, zero, or a positive integer if this object is less than, equal to, or greater than the specified object respectively.
+         */
+        @Override
+        public int compareTo(Edge edge)
+        {
+            int comparison = Double.compare(edge.getWeight(), this.getWeight());
+            return comparison == 0 ? this.getDestination().compareTo(edge.getDestination()) : comparison;
+        }
     }
 }
+

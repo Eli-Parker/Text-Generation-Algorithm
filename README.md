@@ -3,9 +3,11 @@
 This is a representation of a very simple text prediction algorithm which processes a 
 text file and returns K words of predicted text based on a "seed" file provided in a command line argument. 
 The implementation uses a directed graph to assign weights to each word based on the frequency of that word 
-coming after the previous one, and uses Dijkstra's algorithm to make a "path" from word to word.
+coming after the previous one, and repeats this process over and over to string a sentence together. 
+This is known as a "Markov Chain" model, and is a very simple way to predict text. 
+More info on Markov Chains can be found [here](https://en.wikipedia.org/wiki/Markov_chain).
 
-Notably this is a similar model to that of ChatGPT at a *much* smaller scale, hence the tongue in cheek name. 
+Notably this is a similar result to that of ChatGPT at a *much* smaller scale, hence the tongue in cheek name. 
 
  ** **This program has _NO_ affiliation with OpenAI. We are only using the GPT suffix as a 
 quick reference to identify the program's function.** **
@@ -123,6 +125,30 @@ The output must be printed to System.out and follow these specifications.
 
 # Our Solution
 
-//TODO add solution
+The following details the thought process for each of the classes we created to solve this problem.
 
+The program is split into three classes: `TextGenerator`, `GenerativeModel`, and `DirectedGraph`.
+- `TextGenerator` is the interface for the user, and essentially serves only to call functions within `GenerativeModel`.
+- `GenerativeModel` is the class that contains the main logic for the program. It reads the input file, processes the text, 
+and generates the output. GenerativeModel is the comprehensive backing. 
+- `DirectedGraph` is the underlying data structure for the implementation, containing all the vertices and edges 
+for every word in the input file. Without going into detail, the specifics 
+of the implementation prioritize time efficiency over space efficiency.
 
+## DirectedGraph Implementation:
+
+Our problem at the data structure level boils down to these main points:
+- We need to store a large number of word pairs, as well as the frequency of each pair, and find them without costly searches through the list
+- We need to be able to find the most frequent word pairings quickly
+- We need to be able to grab random frequency word pairings from the list quickly (skewed towards less nonsensical answers)
+
+Simply put, there is no data structure that can do all of these things efficiently. A HashMap can quickly store and find word pairs, but it has no feasible way to sort the list. 
+A Priority Queue can quickly store and remove the maximum element, and it can return a sorted list in O(NLog(N)) time in the worst case,
+but it lacks the ability to randomly pick elements from its list. An ArrayList is simple and can technically do all of these things,
+but the program would be far too slow to be practical.
+
+We decided to combine all three of those data structures. Since this program operates on a relatively small scale, 
+the space complexity of the program is not a concern. Our implementation uses two HashMaps, with the key being a starting word
+and the value being either an ArrayList containing all the edges of the vertex, or a PriorityQueue containing the edges of the vertex.
+The PriorityQueue is used to easily keep a sorted list of the max values and to efficiently return the entire list of edges, 
+and the ArrayList is used to quickly grab random values.
