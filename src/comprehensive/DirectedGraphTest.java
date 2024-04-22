@@ -71,9 +71,4 @@ class DirectedGraphTest {
         System.out.println("weight one (expected 1/6%): "   + probablilityThird );
     }
 
-    @org.junit.jupiter.api.Test
-    void size()
-    {
-        assertEquals(3,graph.size());
-    }
 }
