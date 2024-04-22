@@ -2,7 +2,6 @@ package comprehensive;
 
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -10,9 +9,13 @@ import java.util.regex.Pattern;
 
 /**
  * Contains a generative model algorithm which generates predicted text based on a given input.
- * TODO add more details
+ * The model is based on a directed graph of word pairs which can be used to generate text.
+ * <p>
+ * The main processes in this method are to parse text for the DirectedGraph object, and to serve as an interface
+ * for the random and maximum word generation methods. The actual storage is done in the DirectedGraph class.
+ * @see DirectedGraph for the graph implementation
  * @author Eli Parker & Jorden Dickerson
- * @version Apr 17, 2024
+ * @version Apr 22, 2024
  */
 public class GenerativeModel
 {
@@ -84,21 +87,22 @@ public class GenerativeModel
 
 
     /**
-     * Fills the graph with the words from the given file
-     * @param filePath the file path to the file to parse
+     * Fills the model with the words from the given file
+     * @param filePath the file path of the text file to parse
      * @throws IOException if the file path is invalid
      */
     private void createGraph(String filePath) throws IOException {
         File file = new File(filePath);
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        //for each line in the file, separate the words and add them to the graph as connections
         String previousWord = "";
         String line;
         //store already formatted words to avoid extra calls to formatWord
         HashMap<String, String> formattedWords = new HashMap<>();
+
+        //for each line in the file, separate the words and add them to the graph as connections
         while((line = reader.readLine()) != null)
         {
-            String[] words = line.replaceAll(" +", " ").split(" ");
+            String[] words = line.split(" ");
             for(int i = 0; i < words.length; i++)
             {
                 //check if the word is already formatted
