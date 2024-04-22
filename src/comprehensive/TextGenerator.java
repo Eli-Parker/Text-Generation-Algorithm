@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * program defaults to returning the K most probable words to come after the seed word.
  * @see GenerativeModel for more specific details on the implementation
  * @see DirectedGraph for the graph implementation
- * @version Apr 17, 2024
+ * @version Apr 22, 2024
  * @author Eli Parker and Jorden Dickerson
  */
 public class TextGenerator
@@ -36,9 +36,7 @@ public class TextGenerator
     public static void main(String[] args) throws FileNotFoundException, IllegalArgumentException
     {
         //take the file path argument and pass into generative model
-        GenerativeModel model;
-        //check for valid filepath
-        model = new GenerativeModel(args[0]);
+        GenerativeModel model = new GenerativeModel(args[0]);
 
         //check to see that args[2] is a valid integer
         try

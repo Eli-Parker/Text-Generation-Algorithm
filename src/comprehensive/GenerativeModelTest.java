@@ -39,15 +39,17 @@ public class GenerativeModelTest {
     @org.junit.jupiter.api.Test
     void testBasicOutput()
     {
-        assertEquals("[a - b c d e f g h i j k l m n o p q r s t u v w x y z, z - c a b]", model.getGraph());
+        assertEquals("[wow - a, a - wow z b c d e f g h i j k l m n o p q r s t u v w x y, b - a z, c - a z, d - a, e - a, f - a, g - a, h - a, i - a, j - a, k - a, l - a, m - a, n - a, o - a, p - a, q - a, r - a, s - a, t - a, u - a, v - a, w - a, x - a, y - a, z - c a b z]", model.getGraph());
     }
 
     @org.junit.jupiter.api.Test
     void testGenerateText() throws FileNotFoundException
     {
+        //testing the abc file to see the proportions of the values it answers on
         var sample1 = "the-old-english-physiologus.txt";
         var beeMovie = "beeMovie.txt";
-        var model2 = new GenerativeModel(beeMovie);
-        model2.generateText( "barry", 10, "all");
+        var model2 = new GenerativeModel("src/warAndPeace.txt");
+        model2.generateText( "the", 10, "all");
     }
+
 }

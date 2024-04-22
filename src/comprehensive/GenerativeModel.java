@@ -1,23 +1,29 @@
 package comprehensive;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.*;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.regex.Pattern;
 
 
 /**
  * Contains a generative model algorithm which generates predicted text based on a given input.
- * TODO add more details
+ * The model is based on a directed graph of word pairs which can be used to generate text.
+ * <p>
+ * The main processes in this method are to parse text for the DirectedGraph object, and to serve as an interface
+ * for the random and maximum word generation methods. The actual storage is done in the DirectedGraph class.
+ * @see DirectedGraph for the graph implementation
  * @author Eli Parker & Jorden Dickerson
- * @version Apr 17, 2024
+ * @version Apr 22, 2024
  */
 public class GenerativeModel
 {
     //The adjacency list representation of the graph
     private DirectedGraph graph;
+
+    //to use to remove bad formatting from words
+    private static final Pattern regexPattern = Pattern.compile("[^\\w\\s]");
 
     /**
      * Creates a new GenerativeModel object, initializes the graph
@@ -27,7 +33,11 @@ public class GenerativeModel
     {
         //initialize the graph by calling a helper method
         graph = new DirectedGraph();
-        createGraph(filePath);
+        try {
+            createGraph(filePath);
+        } catch (IOException e) {
+            throw new FileNotFoundException("File not found");
+        }
     }
 
 
@@ -77,29 +87,47 @@ public class GenerativeModel
 
 
     /**
-     * Fills the graph with the words from the given file
-     * @param filePath the file path to the file to parse
-     * @throws FileNotFoundException if the file path is invalid
+     * Fills the model with the words from the given file
+     * @param filePath the file path of the text file to parse
+     * @throws IOException if the file path is invalid
      */
-    private void createGraph(String filePath) throws FileNotFoundException {
+    private void createGraph(String filePath) throws IOException {
         File file = new File(filePath);
-        Scanner scanner = new Scanner(file);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String previousWord = "";
+        String line;
+        //store already formatted words to avoid extra calls to formatWord
+        HashMap<String, String> formattedWords = new HashMap<>();
+
         //for each line in the file, separate the words and add them to the graph as connections
-        while(scanner.hasNextLine())
+        while((line = reader.readLine()) != null)
         {
-            String[] words = scanner.nextLine().trim().replaceAll(" +", " ").split(" ");
-            String previousWord = "";
-            for(String word : words)
+            String[] words = line.split(" ");
+            for(int i = 0; i < words.length; i++)
             {
-                var formattedWord = formatWord(word); // format the word
-                if(!previousWord.isEmpty() && !formattedWord.isEmpty())
+                //check if the word is already formatted
+                String formattedWord = formattedWords.get(words[i]);
+                if (formattedWord == null)
                 {
-                    //if the word has a previous word, add a connection from the previous word to the current word
-                    this.graph.addConnection(previousWord, formattedWord);
+                    //if not, format the word & add to the map
+                    formattedWord = formatWord(words[i]);
+                    formattedWords.put(words[i], formattedWord);
                 }
-                previousWord = formattedWord;
+
+                if(!formattedWord.isEmpty())
+                {
+                    if(!previousWord.isEmpty()) {
+                        //if the word has a previous word, add a connection from the previous word to the current word
+                        this.graph.addConnection(previousWord, formattedWord);
+                    }
+
+                    //if the formatted word is not empty, set the previous word to the current word
+                    previousWord = formattedWord;
+                }
             }
+
         }
+        reader.close();
     }
 
 
@@ -119,21 +147,18 @@ public class GenerativeModel
             result.append(curWord).append(" ");
             curWord = graph.getRandom(curWord); // set the current word to a random next word
 
-//            //if the current word is empty, set it to a random word
-//            if (curWord.isEmpty())
-//                curWord = graph.getRandom(seed);
             //if the current word is empty, set it to the seed word
             if (curWord.isEmpty())
                 curWord = formatWord(seed);
         }
         //add the last word to the result without whitespace
-        if(numWords > 0) {
+        if(numWords > 0)
+        {
             if(!curWord.isEmpty())
                 result.append(curWord);
             else
                 result.append(seed);
         }
-
 
         //print the result to the console
         System.out.println(result);
@@ -153,14 +178,20 @@ public class GenerativeModel
         for(int i = 0; i < numWords - 1; i++){
             result.append(curWord).append(" ");
             curWord = graph.getMax(curWord); // set the current word to the maximum word
+
             //if the current word is still empty, set it to the seed word
             if (curWord.isEmpty())
                 curWord = formatWord(seed);
         }
-        if(numWords > 0 && !curWord.isEmpty())
-            result.append(curWord);
-        else if(curWord.isEmpty())
-            result.append(seed);
+
+        //add the last word to the result without whitespace
+        if(numWords > 0)
+        {
+            if(!curWord.isEmpty())
+                result.append(curWord);
+            else
+                result.append(seed);
+        }
         //print the result to the console
         System.out.println(result);
     }
@@ -173,19 +204,8 @@ public class GenerativeModel
      */
     public static String formatWord(String word)
     {
-        //initialize a string builder to hold the formatted word
-        StringBuilder result = new StringBuilder(word.length());
-        //convert the word to a character array and loop through each character
-        for (char character : word.toCharArray()) {
-            //if the character is a punctuation character, break the loop (no characters after an apostrophe are valid)
-            if (Character.toString(character).matches("[^\\w\\s]")){
-                break;
-            }
-            //if the character is valid (abc,0-9), add it to the result. ignore any other characters
-            result.append(character);
-        }
-
-        return result.toString().toLowerCase();
+        var matcher = regexPattern.matcher(word);
+        return (matcher.find()) ? word.substring(0,matcher.start()).toLowerCase(): word.toLowerCase();
     }
 
 
@@ -205,25 +225,4 @@ public class GenerativeModel
         }
         return Arrays.toString(result);
     }
-
-
-    /**
-     * Formats an array of words TODO why do we have this?
-     * @param words the words to format
-     * @return an array of formatted words
-     */
-    public static String[] formatWords(String[] words)
-    {
-        ArrayList<String> result = new ArrayList<>();
-        for(String word : words)
-        {
-            var formattedWord = formatWord(word);
-            if(!formattedWord.isEmpty())
-            {
-                result.add(formattedWord);
-            }
-        }
-        return result.toArray(new String[0]);
-    }
-
 }

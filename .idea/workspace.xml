@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Bug Squashing, polishing of methods, updated README.md">
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph$Edge.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.class" afterDir="false" />
+    <list default="true" id="ce2e0960-27b2-4b7c-9d72-6aab6903e9d0" name="Changes" comment="Optimized formatWord for time efficiency">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/DirectedGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/GenerativeModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/comprehensive/TextGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,40 +44,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.DirectedGraphTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DirectedGraphTest.getMostProbableList.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.testBasicOutput.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.testGenerateText.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GenerativeModelTest.testTrickyFormatting.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Dev&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Jorden/Desktop/Final-Project-2420/GPT-0.1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.TimerTemplateExtention.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.DirectedGraphTest.executor": "Run",
+    "JUnit.DirectedGraphTest.getMostProbableList.executor": "Run",
+    "JUnit.DirectedGraphTest.testRandomnessWeight.executor": "Run",
+    "JUnit.GenerativeModelTest.executor": "Run",
+    "JUnit.GenerativeModelTest.testBasicOutput.executor": "Run",
+    "JUnit.GenerativeModelTest.testGenerateText.executor": "Run",
+    "JUnit.GenerativeModelTest.testTrickyFormatting.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Experimental",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Jorden/Desktop/Final-Project-2420/GPT-0.1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="C:\Users\Eli Parker\Documents\GitHub\assign06linkedliststack\GPT-0.1" />
       <recent name="C:\Users\Eli Parker\Documents\GitHub\assign06linkedliststack\GPT-0.1\src\comprehensive" />
     </key>
@@ -90,7 +88,7 @@
       <recent name="comprehensive" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.DirectedGraphTest.testRandomnessWeight">
     <configuration name="DirectedGraphTest.getMostProbableList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="GPT -1" />
       <extension name="coverage">
@@ -102,6 +100,22 @@
       <option name="PACKAGE_NAME" value="comprehensive" />
       <option name="MAIN_CLASS_NAME" value="comprehensive.DirectedGraphTest" />
       <option name="METHOD_NAME" value="getMostProbableList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DirectedGraphTest.testRandomnessWeight" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GPT -1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="comprehensive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="comprehensive" />
+      <option name="MAIN_CLASS_NAME" value="comprehensive.DirectedGraphTest" />
+      <option name="METHOD_NAME" value="testRandomnessWeight" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -157,19 +171,13 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GenerativeModelTest.testTrickyFormatting" />
-        <item itemvalue="JUnit.GenerativeModelTest.testBasicOutput" />
+        <item itemvalue="JUnit.DirectedGraphTest.testRandomnessWeight" />
         <item itemvalue="JUnit.GenerativeModelTest.testGenerateText" />
         <item itemvalue="JUnit.DirectedGraphTest.getMostProbableList" />
+        <item itemvalue="JUnit.GenerativeModelTest.testTrickyFormatting" />
+        <item itemvalue="JUnit.GenerativeModelTest.testBasicOutput" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -184,7 +192,7 @@
       <workItem from="1713286389941" duration="3221000" />
       <workItem from="1713318876887" duration="533000" />
       <workItem from="1713326206453" duration="4975000" />
-      <workItem from="1713387263329" duration="14181000" />
+      <workItem from="1713387263329" duration="16300000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, added main class and javadocs for methods">
       <option name="closed" value="true" />
@@ -306,7 +314,55 @@
       <option name="project" value="LOCAL" />
       <updated>1713400746308</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Fixed a bug involving resetting to the source node">
+      <option name="closed" value="true" />
+      <created>1713404996215</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1713404996215</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!">
+      <option name="closed" value="true" />
+      <created>1713460736645</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1713460736645</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Updated getRandom to use a Vose Alias method">
+      <option name="closed" value="true" />
+      <created>1713562641322</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1713562641322</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Simplified the addConnection method and optimized it for time efficiency">
+      <option name="closed" value="true" />
+      <created>1713563418410</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1713563418410</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Rollback changes from last commit">
+      <option name="closed" value="true" />
+      <created>1713564949927</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1713564949927</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Optimized formatWord for time efficiency">
+      <option name="closed" value="true" />
+      <created>1713567915162</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1713567915162</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,18 +386,16 @@
     <MESSAGE value="Finshed TextGenerator.java, finished GenerativeModel.java, cleanup and testing needed" />
     <MESSAGE value="Bug Squashing, polishing of methods" />
     <MESSAGE value="Bug Squashing, polishing of methods, updated README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug Squashing, polishing of methods, updated README.md" />
+    <MESSAGE value="Fixed a bug involving resetting to the source node" />
+    <MESSAGE value="Sqashed a few more word formatting bugs" />
+    <MESSAGE value="Sqashed a few more word formatting bugs. Note to self: Whitespce includes new lines!" />
+    <MESSAGE value="Updated getRandom to use a Vose Alias method" />
+    <MESSAGE value="Simplified the addConnection method and optimized it for time efficiency" />
+    <MESSAGE value="Rollback changes from last commit" />
+    <MESSAGE value="Optimized formatWord for time efficiency" />
+    <option name="LAST_COMMIT_MESSAGE" value="Optimized formatWord for time efficiency" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/comprehensive/DirectedGraphTest.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="key" />
