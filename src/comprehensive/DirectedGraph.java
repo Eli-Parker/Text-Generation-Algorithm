@@ -7,7 +7,7 @@ import java.util.*;
 /**
  *  Represents a directed graph of word pairs with the ability to both grab
  *  the maximum frequency connection and a random connection from any node in the graph.
- *  GetMax() has a big O of O(K) and getRandom() has a big O of O(K + log(K)), where K is the
+ *  getMax() has a big O of O(K) and getRandom() has a big O of O(K + log(K)), where K is the
  *  size of the edge list for the given vertex.
  *  <p>
  *  The graph is represented using a HashMap of Strings mapped to ArrayLists of Edges,
@@ -20,8 +20,9 @@ import java.util.*;
  */
 public class DirectedGraph {
 
-    private HashMap<String,ArrayList<Edge>> adjList; // for accessing random values
-    private HashMap<String, Integer> totalEdges;
+    private HashMap<String,ArrayList<Edge>> adjList; // the adjacency list representation of the graph
+    private HashMap<String, Integer> totalEdges; // the total number of edges for each vertex
+    private Random rng; // random number generator
 
     /**
      * Creates a new DirectedGraph object.
@@ -34,7 +35,8 @@ public class DirectedGraph {
 
     /**
      * Adds a connection to the graph.
-     * If the connection already exists, it increases the occurrences.
+     * If the connection already exists, it increases the weight of
+     * that connection relative to the other ones for the vertex.
      * @param source the source node
      * @param destination the destination node
      */
@@ -57,8 +59,7 @@ public class DirectedGraph {
             if(!found)
             {
                 //if pair isn't found, create a new edge pointing to the destination word
-                var newEdge = new Edge(source, destination);
-                edges.add(newEdge);
+                edges.add(new Edge(source, destination));
             }
         }
         else
@@ -66,8 +67,8 @@ public class DirectedGraph {
             //If source isn't found, add the source to the HashMap
             ArrayList<Edge> edges = new ArrayList<>();
             //add the destination to the source
-            var edge = new Edge(source, destination); // add a new edge with the destination str & 1 occurrence
-            edges.add(edge);
+            // add a new edge with the destination str & 1 occurrence
+            edges.add(new Edge(source, destination));
             adjList.put(source, edges);
         }
         //increase the total number of edges
@@ -82,7 +83,7 @@ public class DirectedGraph {
      */
     public String getMax(String source)
     {
-        if(adjList.containsKey(source) && !adjList.get(source).isEmpty())
+        if(adjList.containsKey(source))
         {
             //get the first element in the priority queue, return it
             Edge edge = Collections.min(adjList.get(source));
@@ -99,6 +100,12 @@ public class DirectedGraph {
      */
     public String getRandom(String source)
     {
+        //if the random number generator is null, instantiate it
+        if(rng == null)
+        {
+            rng = new Random();
+        }
+
         if(adjList.containsKey(source))
         {
             var sourceEdges = adjList.get(source); // get the list of edges
@@ -107,14 +114,16 @@ public class DirectedGraph {
             {
                 prefixSum[i + 1] = prefixSum[i] + sourceEdges.get(i).getWeight();
             }
-            Random rng = new Random();
+
             int resultIndex = Arrays.binarySearch(prefixSum, rng.nextDouble());
             if(resultIndex < 0)
             {
                 resultIndex = (-resultIndex) - 2;
             }
             else
+            {
                 resultIndex--;
+            }
             return sourceEdges.get(resultIndex).getDestination();
         }
         return "";
@@ -131,7 +140,8 @@ public class DirectedGraph {
     public String getMostProbableList(String source, int K)
     {
         StringBuilder result = new StringBuilder();
-        if(adjList.containsKey(source)&& !adjList.get(source).isEmpty()){
+        if(adjList.containsKey(source))
+        {
             var pointer = adjList.get(source); // get the list of edges
             Collections.sort(pointer);
 
@@ -174,7 +184,8 @@ public class DirectedGraph {
      * <p>
      * The weight is defined as the frequency of the word pair / the number of edges.
      * (Ex: if a word "hello" has "world", "hi", and "jim" coming after it,
-     * then "jim" would have a weight of 1/3)
+     * then "jim" would have a weight of 1/3).
+     * <p>
      * Edge objects are compared by weight, then alphanumerically.
      * @author Eli Parker & Jorden Dickerson
      * @version Apr 16, 2024

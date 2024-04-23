@@ -2,6 +2,7 @@ package comprehensive;
 
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -94,30 +95,34 @@ public class GenerativeModel
     private void createGraph(String filePath) throws IOException {
         File file = new File(filePath);
         BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        //The word that comes before the current one in the loop
+        //Stored outside, so it's not overwritten with new lines
         String previousWord = "";
         String line;
         //store already formatted words to avoid extra calls to formatWord
         HashMap<String, String> formattedWords = new HashMap<>();
-
         //for each line in the file, separate the words and add them to the graph as connections
         while((line = reader.readLine()) != null)
         {
-            String[] words = line.split(" ");
-            for(int i = 0; i < words.length; i++)
+            ArrayList<String> words = split(line);
+            String unformattedWord;
+            for(int i = 0; i < words.size(); i++)
             {
                 //check if the word is already formatted
-                String formattedWord = formattedWords.get(words[i]);
+                unformattedWord = words.get(i);
+                String formattedWord = formattedWords.get(unformattedWord);
                 if (formattedWord == null)
                 {
                     //if not, format the word & add to the map
-                    formattedWord = formatWord(words[i]);
-                    formattedWords.put(words[i], formattedWord);
+                    formattedWord = formatWord(unformattedWord);
+                    formattedWords.put(unformattedWord, formattedWord);
                 }
 
                 if(!formattedWord.isEmpty())
                 {
                     if(!previousWord.isEmpty()) {
-                        //if the word has a previous word, add a connection from the previous word to the current word
+                        //if the word pair is not empty, add the connection to the graph
                         this.graph.addConnection(previousWord, formattedWord);
                     }
 
@@ -128,6 +133,41 @@ public class GenerativeModel
 
         }
         reader.close();
+    }
+
+
+    /**
+     * Splits the line into words separated by spaces.
+     * This method is ever so slightly faster than the String.split() method.
+     * @param line the line to split
+     * @return an ArrayList of the words in the line split by spaces
+     */
+    public static ArrayList<String> split(String line) {
+        ArrayList<String> returnValues = new ArrayList<>();
+
+        //split the line into characters
+        char[] chars = line.toCharArray();
+
+        //StringBuilder to store the current word
+        StringBuilder splitWord = new StringBuilder();
+        int i = 0;
+        for (char letter : chars)
+        {
+            //if the letter is not a space, add it to the current word
+            if (letter != ' ')
+                splitWord.append(letter);
+            else
+            //if the letter is a space, add the current word to the list and clear the StringBuilder
+            {
+                returnValues.add(splitWord.toString());
+                splitWord.delete(0, splitWord.length());
+            }
+        }
+        //add the last word to the list
+        returnValues.add(splitWord.toString());
+        splitWord.delete(0, splitWord.length());
+
+        return returnValues;
     }
 
 
