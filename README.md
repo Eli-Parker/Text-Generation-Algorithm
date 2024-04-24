@@ -7,11 +7,6 @@ coming after the previous one, and repeats this process over and over to string 
 This is known as a "Markov Chain" model, and is a very simple way to predict text. 
 More info on Markov Chains can be found [here](https://en.wikipedia.org/wiki/Markov_chain).
 
-Notably this is a similar result to that of ChatGPT at a *much* smaller scale, hence the tongue in cheek name. 
-
- ** **This program has _NO_ affiliation with OpenAI. We are only using the GPT suffix as a 
-quick reference to identify the program's function.** **
-
 ### Usage
 
 The program requires either 3 or 4 arguments passed into the `args[]` parameter when running the program.
@@ -46,13 +41,6 @@ Or, without the 4th argument it would be:
 
 `java comprehensive.TextGenerator sample.txt hello 4`
 
-
-### Acknowledgements
-
-This program was written in conjunction with my partner for the class, **Jorden Dickerson**. 
-He is an incredible programmer, and he's been a joy to work with over the past months! 
-I owe much of the impeccable programming done here to him and our teamwork.
-Thank you Jorden :) your inclusion has been much appreciated.
 
 ## Original Assignment Description
 To properly show the requirements the assignment is under, I've included the broad strokes of the assignment 
@@ -122,3 +110,11 @@ The output must be printed to System.out and follow these specifications.
   Take care to design your solution to be as efficient as possible.  See the section below for details of how your text generator is evaluated for running-time efficiency.
 
 **NOTE: It is intentional that you are being given no guidance as to how to solve the problem. It is critical that you gain experience solving a problem "from scratch," designing the structure of your classes and methods, as well as choosing the best data structures and algorithms for the problem. Because the readers of your code have no assumptions about how it is organized, you must document it well.**
+
+
+## Acknowledgements
+
+This program was written in conjunction with my partner for the class, **Jorden Dickerson**. 
+He is an incredible programmer, and he's been a joy to work with over the past months! 
+I owe much of the impeccable programming done here to him and our teamwork.
+Thank you Jorden :) your inclusion has been much appreciated.
